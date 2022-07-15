@@ -1228,6 +1228,8 @@ class TimeReportController extends Controller
                 }
             }
         }
+
+        $filepath = null;
         
         if ($request->lampiran !== null) {
             $uploadedFilelampiran = $request->file('lampiran');
