@@ -226,81 +226,85 @@ class TimeReportImport implements ToCollection, WithHeadingRow
         $error_count = 0;
         $row_count = 0;
 
-        foreach ($rows as $row) {
-            if($this->user->lembur === 'T'){
-                $duration['overtime'] = 0;
-                $row['type'] = 'REGULAR_HOUR';
-            }
-
-            $duration = getDuration($row['start_time'], $row['finish_time'], $row['type']);
-
-            if ($row['nip'] == Auth::user()->nip) {
-                if (is_string($row['date'])) {
-                    $date = Carbon::parse($row['date']);
-                }
-                if (is_integer($row['date'])) {
-                    $date = Date::excelToDateTimeObject($row['date']);
-                }
-                $summary = TimeReportHead::where('report_date', '=', $date)
-            ->where('user_nip', '=', Auth::user()->nip)->first();
-                
-                $row_count += 1;
-                if (is_string($row['date'])) {
-                    $date = Carbon::parse($row['date']);
-                    $date->format('Y-m-d');
-                }
-                if (is_integer($row['date'])) {
-                    $date = Date::excelToDateTimeObject($row['date']);
-                }
-
-                $row_data = [
-                    'timereportheadid' => $summary->id,
-                    'nip' => $row['nip'],
-                    'date' => $date,
-                    'day' => $date->format('l'),
-                    'week' => Carbon::parse($date)->weekNumberInMonth,
-                    'task' => strstr($row['task'], '.', true),
-                    'clientid' => $row['client_id'],
-                    'starttime' => Carbon::parse($row['start_time']),
-                    'finishtime' => Carbon::parse($row['finish_time']),
-                    'normalhours' => $duration['regular'],
-                    'overtimes' => $duration['overtime'],
-                    'description' => $row['description'],
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                ];
-                
+        try {
+            foreach ($rows as $row) {
                 if($this->user->lembur === 'T'){
-                    unset($row_data['overtimes']); 
+                    $duration['overtime'] = 0;
+                    $row['type'] = 'REGULAR_HOUR';
                 }
-
-                $total_inputted = TimeReport::where('date', $date)
-                    ->where('nip', Auth::user()->nip)
-                    ->selectRaw('sum(normalhours) as total_hours, date')
-                    ->get();
+    
+                $duration = getDuration($row['start_time'], $row['finish_time'], $row['type']);
+    
+                if ($row['nip'] == Auth::user()->nip) {
+                    if (is_string($row['date'])) {
+                        $date = Carbon::parse($row['date']);
+                    }
+                    if (is_integer($row['date'])) {
+                        $date = Date::excelToDateTimeObject($row['date']);
+                    }
+                //     $summary = TimeReportHead::where('report_date', '=', $date)
+                // ->where('user_nip', '=', Auth::user()->nip)->first();
+                    $summary = $this->updateOrCreateTimeReportHead($row);
                     
-                $status = Statuses::where('nip', $row['nip'])->where('period', $date->format('m'))->first();
-                
-                if (($total_inputted->sum->total_hours + $duration['regular'] )>= 8) {
-                    $error_count += 1;
-                    $this->error[$error_count] = $row_count + 1;
-                } else {
-                    if(isset($status)){
-                        if($status->is_report_locked){
-                            $error_count += 1;
-                            $this->error[$error_count] = $row_count + 1;
-                        }else{
-                            $summary->details()->create($row_data);
-                        }
-                    }else{
-                
-                        // TimeReportHead::whereBetween('report_date', [$start_period->format('Y-m-d'), $end_period->format('Y-m-d')])
-                        // ->where('user_nip', Auth::user()->nip)->delete();
-                        $summary->details()->create($row_data);
+                    $row_count += 1;
+                    if (is_string($row['date'])) {
+                        $date = Carbon::parse($row['date']);
+                        $date->format('Y-m-d');
+                    }
+                    if (is_integer($row['date'])) {
+                        $date = Date::excelToDateTimeObject($row['date']);
+                    }
+                    $row_data = [
+                        'timereportheadid' => $summary->id,
+                        'nip' => $row['nip'],
+                        'date' => $date,
+                        'day' => $date->format('l'),
+                        'week' => Carbon::parse($date)->weekNumberInMonth,
+                        'task' => strstr($row['task'], '.', true),
+                        'clientid' => $row['client_id'],
+                        'starttime' => Carbon::parse($row['start_time']),
+                        'finishtime' => Carbon::parse($row['finish_time']),
+                        'normalhours' => $duration['regular'],
+                        'overtimes' => $duration['overtime'],
+                        'description' => $row['description'],
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                    ];
+                    
+                    if($this->user->lembur === 'T'){
+                        unset($row_data['overtimes']); 
                     }
     
+                    $total_inputted = TimeReport::where('date', $date)
+                        ->where('nip', Auth::user()->nip)
+                        ->selectRaw('sum(normalhours) as total_hours, date')
+                        ->get();
+                        
+                    $status = Statuses::where('nip', $row['nip'])->where('period', $date->format('m'))->first();
+                    
+                    if (($total_inputted->sum->total_hours + $duration['regular'] )>= 8) {
+                        $error_count += 1;
+                        $this->error[$error_count] = $row_count + 1;
+                    } else {
+                        if(isset($status)){
+                            if($status->is_report_locked){
+                                $error_count += 1;
+                                $this->error[$error_count] = $row_count + 1;
+                            }else{
+                                $summary->details()->create($row_data);
+                            }
+                        }else{
+                    
+                            // TimeReportHead::whereBetween('report_date', [$start_period->format('Y-m-d'), $end_period->format('Y-m-d')])
+                            // ->where('user_nip', Auth::user()->nip)->delete();
+                            $summary->details()->create($row_data);
+                        }
+        
+                    }
                 }
             }
+        } catch (\Throwable $th) {
+            dd($th);
         }
     }
 }
