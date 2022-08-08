@@ -254,6 +254,32 @@ class TimeReportImport implements ToCollection, WithHeadingRow
                     if (is_integer($row['date'])) {
                         $date = Date::excelToDateTimeObject($row['date']);
                     }
+
+                    $seeovertime = DB::table('mastertimereports')->where('date', '=', $date)
+                    ->where('nip', '=', Auth::user()->nip)->sum('overtimes');
+                    
+                    $day_of_week = date('l', $date->format('d'));
+                    $day = date('N', strtotime($day_of_week));
+                    
+                    if ($duration['overtime'] == null) {
+                        $overtime = 0;
+                        $ineffective = 0;
+                    } else {
+                        if ($seeovertime >= 2) {
+                            if ($day >= 6 && $row['overtimess'] >= 0) {
+                                $ineffective = 0.75;
+                            } elseif ($day < 6 && $duration['overtime'] >= 0) {
+                                $ineffective = 0.50;
+                            }
+                        } else {
+                            if ($day >= 6 && $duration['overtime'] >= 0) {
+                                $ineffective = 0;
+                            } elseif ($day < 6 && $duration['overtime'] >= 0) {
+                                $ineffective = 0;
+                            }
+                        }
+                    }
+                    
                     $row_data = [
                         'timereportheadid' => $summary->id,
                         'nip' => $row['nip'],
@@ -264,16 +290,13 @@ class TimeReportImport implements ToCollection, WithHeadingRow
                         'clientid' => $row['client_id'],
                         'starttime' => Carbon::parse($row['start_time']),
                         'finishtime' => Carbon::parse($row['finish_time']),
-                        'normalhours' => $duration['regular'],
-                        'overtimes' => $duration['overtime'],
+                        'normalhours' => $duration['regular'] ? $duration['regular'] : 0,
+                        'overtimes' => $overtime ? $overtime : 0,
+                        'ineffectiverules' => $ineffective ? $ineffective : 0,
                         'description' => $row['description'],
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
                     ];
-                    
-                    if($this->user->lembur === 'T'){
-                        unset($row_data['overtimes']); 
-                    }
     
                     $total_inputted = TimeReport::where('date', $date)
                         ->where('nip', Auth::user()->nip)

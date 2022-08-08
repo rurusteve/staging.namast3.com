@@ -297,7 +297,8 @@ class TimeReportController extends Controller
                     DB::raw('SUM(mastertimereporthead.overtimemeal) as overtimemeal'),
                     DB::raw('SUM(mastertimereporthead.overtimetransportation) as overtimetransportation'),
                     DB::raw('mastertimereports.id as timereportid'),
-                    DB::raw('mastertimereports.task as task'))
+                    DB::raw('mastertimereports.task as task')
+                )
                 //                ->groupBy('mastertimereports.timereportheadid', 'mastertimereports.week', 'monthly')
                 ->groupBy('mastertimereports.date')
                 ->orderBy('mastertimereports.date', 'desc')
@@ -462,11 +463,9 @@ class TimeReportController extends Controller
                     ]);
                 }
             }
+            $report = TimeReport::where('id', $id)->first();
+            $report->delete();
         }
-
-
-        $report = TimeReport::where('id', $id)->first();
-        $report->delete();
 
         return redirect('/timesheets/detail');
     }
@@ -565,7 +564,7 @@ class TimeReportController extends Controller
                 return (new IndTimeReportExport($request->month, $request))->sendPara($request)->download('timereport-' . Carbon::now() . '-.xlsx');
                 break;
 
-            // case 'print':
+                // case 'print':
 
                 $thisyear = Carbon::now()->year;
                 $week = $request->week;
@@ -1052,8 +1051,8 @@ class TimeReportController extends Controller
         $employeedata = MasterEmployee::where('nip', '=', Auth::user()->nip)->first();
         $day_of_week = date('l', strtotime($request->date));
         $day = date('N', strtotime($day_of_week));
-    
-    
+
+
         $thedate = DB::table('mastertimereporthead')->where('report_date', '=', Carbon::parse($request->date))
             ->where('user_nip', '=', Auth::user()->nip)->first();
         $getdatedata = DB::table('mastertimereports')->where('date', '=', Carbon::parse($request->date))
@@ -1062,45 +1061,45 @@ class TimeReportController extends Controller
             ->where('nip', '=', Auth::user()->nip)->sum('normalhours');
         $getovertimesdata = DB::table('mastertimereports')->where('date', '=', Carbon::parse($request->date))
             ->where('nip', '=', Auth::user()->nip)->sum('overtimes');
-    
-            
+
+
         $duration = round(((Carbon::parse($request->finishTime)->diffInMinutes(Carbon::parse($request->startTime))) / 60), 2);
         $decrease = 0;
-        if(Carbon::parse($request->startTime)->lt(Carbon::parse('13:00')) && Carbon::parse($request->finishTime)->gt(Carbon::parse('12:00'))){
-            if(Carbon::parse($request->startTime)->gt(Carbon::parse('12:00'))){
-                $break = round(Carbon::parse($request->startTime)->diffInMinutes(Carbon::parse('13:00'))/60,2);
-                if($decrease == 0){
-                    $decrease = $decrease + $break;        
+        if (Carbon::parse($request->startTime)->lt(Carbon::parse('13:00')) && Carbon::parse($request->finishTime)->gt(Carbon::parse('12:00'))) {
+            if (Carbon::parse($request->startTime)->gt(Carbon::parse('12:00'))) {
+                $break = round(Carbon::parse($request->startTime)->diffInMinutes(Carbon::parse('13:00')) / 60, 2);
+                if ($decrease == 0) {
+                    $decrease = $decrease + $break;
                 }
             }
-            if(Carbon::parse($request->finishTime)->lt(Carbon::parse('13:00'))){
-                $break = round(Carbon::parse($request->finishTime)->diffInMinutes(Carbon::parse('12:00'))/60,2);
-                if($decrease == 0){
-                    $decrease = $decrease + $break;        
+            if (Carbon::parse($request->finishTime)->lt(Carbon::parse('13:00'))) {
+                $break = round(Carbon::parse($request->finishTime)->diffInMinutes(Carbon::parse('12:00')) / 60, 2);
+                if ($decrease == 0) {
+                    $decrease = $decrease + $break;
                 }
             }
-            if($decrease == 0){
-                $decrease = $decrease + 1;        
+            if ($decrease == 0) {
+                $decrease = $decrease + 1;
             }
         }
 
-        if(Carbon::parse($request->finishTime)->lt(Carbon::parse('13:01')) && Carbon::parse($request->finishTime)->gt(Carbon::parse('12:00')) ){
-            $break = round(Carbon::parse($request->finishTime)->diffInMinutes(Carbon::parse('12:00'))/60,2);
-            if($decrease == 0){
-                $decrease = $decrease + $break;        
+        if (Carbon::parse($request->finishTime)->lt(Carbon::parse('13:01')) && Carbon::parse($request->finishTime)->gt(Carbon::parse('12:00'))) {
+            $break = round(Carbon::parse($request->finishTime)->diffInMinutes(Carbon::parse('12:00')) / 60, 2);
+            if ($decrease == 0) {
+                $decrease = $decrease + $break;
             }
         }
 
-        if(Carbon::parse($request->startTime)->gt(Carbon::parse('11:59')) && !Carbon::parse($request->startTime)->gt(Carbon::parse('13:00')) ){
-            $break = round(Carbon::parse($request->startTime)->diffInMinutes(Carbon::parse('13:00'))/60,2);
-            if($decrease == 0){
-                $decrease = $decrease + $break;        
+        if (Carbon::parse($request->startTime)->gt(Carbon::parse('11:59')) && !Carbon::parse($request->startTime)->gt(Carbon::parse('13:00'))) {
+            $break = round(Carbon::parse($request->startTime)->diffInMinutes(Carbon::parse('13:00')) / 60, 2);
+            if ($decrease == 0) {
+                $decrease = $decrease + $break;
             }
         }
-        
+
         $duration = $duration - $decrease;
 
-        if(Carbon::parse($request->finishTime)->lt(Carbon::parse($request->startTime))){
+        if (Carbon::parse($request->finishTime)->lt(Carbon::parse($request->startTime))) {
             $duration = 0;
         }
 
@@ -1113,14 +1112,14 @@ class TimeReportController extends Controller
                 $request->overtime = $duration;
                 $request->regular = 0;
                 break;
-    
+
             default:
                 $request->overtime = 0;
                 $request->regular = 0;
                 break;
         }
 
-    
+
         if ($getdatedata === null) {
             if ($request->overtime == 0 || $request->overtime == null) {
                 $ineffectiverules = 0;
@@ -1137,7 +1136,7 @@ class TimeReportController extends Controller
             $request->overtimeaccumulation = $request->overtime;
             $checkovertime = $request->overtimeaccumulation - $overbudgetaccumulation;
             $totalhours = $request->regular + $request->overtime - $request->overbudget - $ineffectiverules;
-    
+
             if ($day < 6) {
                 if ($totalhours >= 10.5 && $totalhours < 11.5) {
                     $request->overtimemeal = $employeedata->tarifmakanlembur;
@@ -1166,7 +1165,7 @@ class TimeReportController extends Controller
                 ->where('nip', '=', Auth::user()->nip)->sum('overtimes');
             $getineffectiverules = DB::table('mastertimereports')->where('date', '=', Carbon::parse($request->date))
                 ->where('nip', '=', Auth::user()->nip)->orderBy('ineffectiverules')->get();
-    
+
             if ($request->overtime == null) {
                 $request->overtime = 0;
                 $ineffectiverules = 0;
@@ -1192,7 +1191,7 @@ class TimeReportController extends Controller
             $sumoverbudget = TimeReport::where('date', '=', Carbon::parse($request->date))
                 ->where('nip', '=', Auth::user()->nip)->sum('ineffectivehours');
             $overbudgetaccumulation = $request->overbudget + $sumoverbudget;
-    
+
             if ($getdatedata == null) {
                 $request->overtimeaccumulation = $request->overtime - $ineffectiverules;
             } else {
@@ -1203,7 +1202,7 @@ class TimeReportController extends Controller
             } else {
                 $totalhours = $thedate->total_hour + $request->regular + $request->overtime - $request->overbudget;
             }
-    
+
             if ($day < 6) {
                 if ($request->overtimeaccumulation >= 2.5 && $request->overtimeaccumulation < 3.5) {
                     $request->overtimemeal = $employeedata->tarifmakanlembur;
@@ -1230,7 +1229,7 @@ class TimeReportController extends Controller
         }
 
         $filepath = null;
-        
+
         if ($request->lampiran !== null) {
             $uploadedFilelampiran = $request->file('lampiran');
             $pathlampiran = $uploadedFilelampiran->store('public/lampiran');
@@ -1238,13 +1237,13 @@ class TimeReportController extends Controller
         }
 
         $lateovertimeaccumulation = $request->lateovertime;
-    
+
         $task = MasterTask::where('id', $request->task)->first();
-    
+
         $firstOfMonth = strtotime(date("Y-m-01", strtotime($request->date)));
         //Apply above formula.
         $week = intval(date("W", strtotime($request->date))) - intval(date("W", $firstOfMonth)) + 1;
-    
+
         return view('processinputtimereport', compact('clients', 'employeedata', 'request'))
             ->with('filepath', $filepath)
             ->with('clientname', $clientname)
@@ -1260,8 +1259,8 @@ class TimeReportController extends Controller
             ->with('task', $task)
             ->with('duration', $duration);
     }
-    
-  
+
+
     public function inputtimereport(Request $request)
     {
         $now = Carbon::now();
@@ -1514,13 +1513,13 @@ class TimeReportController extends Controller
                 $week = Carbon::parse($startPeriod);
                 break;
         }
-        
+
         $timereports = TimeReport::whereBetween('date', [$week, Carbon::parse($week)->addWeek()])->where('nip', $request->employee);
         $timereports->update(['approved_by_incharge' => true]);
-        
+
         $employee = MasterEmployee::where('nip', $request->employee)->first();
 
-        $successmessage = 'All time reports of '.$employee->nama.' on week '.$request->week.' has been approved';
+        $successmessage = 'All time reports of ' . $employee->nama . ' on week ' . $request->week . ' has been approved';
 
         return redirect()->back()->with('success-alert', $successmessage);
     }

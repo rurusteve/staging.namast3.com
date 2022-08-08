@@ -77,7 +77,7 @@
                                     <th style="width: 14.3%;">Overtime Hours</th>
                                     <th style="width: 14.3%;">Ineffective Hours</th>
                                     <th style="width: 13.3%;">Overbudget Hours</th>
-                                    <th style="width: 13.3%;">Net</th>
+=                                    <th style="width: 13.3%;">Net</th>
                                     <th style="width: 14.3%;">Total Hours</th>
                                     <th style="width: 16.3%;">%</th>
                                 </tr>

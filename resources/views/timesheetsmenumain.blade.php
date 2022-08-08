@@ -636,7 +636,9 @@
                                 <th>Date</th>
 
                                 <th>Regular <br>Hour(s)</th>
+                                @if($masteremployees->lembur == 'Y')
                                 <th>Overtime <br>Hour(s)</th>
+                                @endif
                                 <th>Ineffective <br>Hour(s)</th>
                                 <th>Net</th>
                                 {{-- <th>Overtime <br>Meal</th>
@@ -658,7 +660,9 @@
                                     <td>{{date('d', strtotime($timereport->date))}} {{date('F', strtotime($timereport->date))}}</td>
 
                                     <td>{{$timereport->normalhours}}</td>
+                                    @if($masteremployees->lembur == 'Y')
                                     <td>{{$timereport->overtimes}}</td>
+                                    @endif
                                     <td>{{$timereport->ineffective}}</td>
                                     <td>{{$timereport->normalhours + $timereport->overtimes - $timereport->ineffective}}</td>
                                     {{-- <td>{{number_format($timereport->overtimemeal,2,",",".")}}</td>
@@ -674,7 +678,9 @@
                                 @endif
                                 <th>date</th>
                                 <th>normalhours</th>
+                                @if($masteremployees->lembur == 'Y')
                                 <th>overtimes</th>
+                                @endif
                                 <th>ineffective</th>
                                 <th>net</th>
                             </tr>
