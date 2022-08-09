@@ -135,7 +135,7 @@
                                         Others
                                     </option>
                                     @foreach($clients as $client)
-                                    <option data-location="{{ $client->location }}" data-type="{{ $client->engagementtype }}" data-period="{{ Carbon\Carbon::parse($client->engagementperiod)->format('Y') }}" value="{{$client->id}}">ID:{{$client->client_id}} {{$client->clientname}}
+                                    <option data-location="{{ $client->location }}" data-type="{{ $client->engagementtype }}" data-period="{{ Carbon\Carbon::parse($client->engagementperiod)->format('Y') }}" value="{{$client->id}}">ID:{{$client->id}} {{$client->clientname}}
                                         , {{$client->clientcode}}
                                         @if($client -> engagementperiodstart === '0001-01-01' || $client -> engagementperiodstart === '0000-00-00' || $client -> engagementperiodstart === 'null')
                                         @else
