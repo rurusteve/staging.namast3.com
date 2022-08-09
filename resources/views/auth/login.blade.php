@@ -77,7 +77,7 @@
                                     <input id="nip" type="text"
                                            class="form-control{{ $errors->has('nip') ? ' is-invalid' : '' }}"
                                            name="nip" value="{{ old('nip') }}" required autofocus>
-                                    @if ($errors->has('email'))
+                                    @if ($errors->has('nip'))
                                         <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('nip') }}</strong>
                                     </span>
@@ -100,7 +100,6 @@
                                     @endif
                                 </div>
                             </div>
-
 
                             <div class="form-group row mb-0">
                                 <div style="width: 70%; margin: 0 15%;" class="">
