@@ -182,7 +182,7 @@
                                                     <label for="client">{{ __('Client') }}</label>
                                                     <input type="text" disabled
                                                            class="form-control"
-                                                           value="{{ $clientname }}">
+                                                           value="{{ 'ID:'.$clients->id.' '.$clientname }}">
                                                     <input type="text" hidden id="id" name="id"
                                                            class="form-control"
                                                            value="{{ $clients->id }}">
@@ -264,7 +264,7 @@
                                                     <label for="client">{{ __('Client') }}</label>
                                                     <input id="client" type="text" disabled
                                                            class="form-control"
-                                                           name="client" value="{{ $clientname }}">
+                                                           name="client" value="{{ 'ID:'.$clients->id.' '.$clientname }}">
                                                     <input id="client" type="text" hidden
                                                            class="form-control"
                                                            name="client" value="{{ $clientname }}">
