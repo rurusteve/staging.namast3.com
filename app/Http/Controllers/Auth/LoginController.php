@@ -33,7 +33,7 @@ class LoginController extends Controller
     protected $redirectTo = '/home';
 
     protected function authenticated(Request $request, $password){
-        Auth::logoutOtherDevices(request('password'));
+        // Auth::logoutOtherDevices(request('password'));
 //        $biodata = DB::table('masterbiodata')->where('nip', Auth::user()->nip)->first();
 //        if($biodata !== null){
 //            $mail = $biodata->emailpribadi;
