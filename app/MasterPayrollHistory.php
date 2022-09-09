@@ -21,6 +21,7 @@ class MasterPayrollHistory extends Model
             $thismonth = Carbon::now('m');
             $month = Carbon::now('m');
         }
+        dd($period);
 
         $employees = MasterPayrollInput::where('periode', $month)->where('payrollcheck', NULL)->get();
 
@@ -59,7 +60,6 @@ class MasterPayrollHistory extends Model
             $editineffective = $timereport->sum('editineffective');
 
             if (empty($datathismonth->jumlahharihadir)) {
-                dd('test');
                 $jumlahharihadir = TimeReport::whereBetween('date', [$start_period->format('Y-m-d'), $end_period->format('Y-m-d')])
                 ->where('nip', $p->nip)
                 ->where('approved_by_incharge', TRUE)
