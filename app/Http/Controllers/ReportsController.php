@@ -637,7 +637,8 @@ class ReportsController extends Controller{
                 $start_period = getStartPeriod($date->format('m'));
                 $end_period = getEndPeriod($date->format('m'));
                 
-                $timereports = $timereports->whereMonth('mastertimereports.date', \request('month'));
+                $timereports = $timereports->whereBetween('date', [$start_period, $end_period]);
+
             } 
             if (\request()->has('week') && \request()->has('month')) {
                 $timereports = $timereports->whereMonth('mastertimereports.date', \request('month'));
@@ -646,7 +647,7 @@ class ReportsController extends Controller{
                 $timereports = $timereports->where('mastertimereports.week', '=', \request('week'));
             }
             if (\request()->has('startdate') && \request()->has('enddate')) {
-                $timereports = $timereports->whereBetween('date', [$start_period, $end_period]);
+                $timereports = $timereports->whereBetween('date', [\request()->has('startdate'), \request()->has('enddate')]);
             } 
                 
             $timereports = $timereports->orderBy('mastertimereports.created_at', 'desc')
