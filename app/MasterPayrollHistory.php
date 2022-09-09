@@ -334,7 +334,7 @@ class MasterPayrollHistory extends Model
                         $phistory->persenupah = ($phistory->jumlahupahtetapaktual / $phistory->penghasilanbruto) * 100;
                     }
                     catch (Exception $e){
-                        dd('test');
+                        dd($phistory->penghasilanbruto.$employeepayrolldata->nama);
                     }
                         
                     if ($phistory->persenupah >= 75) {
