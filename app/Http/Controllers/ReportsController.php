@@ -633,6 +633,7 @@ class ReportsController extends Controller{
 
             if (\request()->has('period')) {
                 $date = Carbon::create()->month(\request()->has('period'));
+                dd($date->format('m'));
 
                 $start_period = getStartPeriod($date->format('m'));
                 $end_period = getEndPeriod($date->format('m'));
