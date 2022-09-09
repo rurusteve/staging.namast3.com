@@ -21,7 +21,6 @@ class MasterPayrollHistory extends Model
             $thismonth = Carbon::now('m');
             $month = Carbon::now('m');
         }
-        dd($period);
 
         $employees = MasterPayrollInput::where('periode', $month)->where('payrollcheck', NULL)->get();
 
