@@ -193,9 +193,58 @@
             </div>
             <div class="card-body">
 
-                <div>
-
+                <div class="dropdown show">
+                    <a class="btn btn-outline-secondary dropdown-toggle" href="#" role="button"
+                       id="period" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">
+                        Periode:
+                        @if( app('request')->input('period') == '1')
+                            Januari
+                        @elseif( app('request')->input('period') == '2')
+                            Februari
+                        @elseif( app('request')->input('period') == '3')
+                            Maret
+                        @elseif( app('request')->input('period') == '4')
+                            April
+                        @elseif( app('request')->input('period') == '5')
+                            Mei
+                        @elseif( app('request')->input('period') == '6')
+                            Juni
+                        @elseif( app('request')->input('period') == '7')
+                            Juli
+                        @elseif( app('request')->input('period') == '8')
+                            Agustus
+                        @elseif( app('request')->input('period') == '9')
+                            September
+                        @elseif( app('request')->input('period') == '10')
+                            Oktober
+                        @elseif( app('request')->input('period') == '11')
+                            November
+                        @elseif( app('request')->input('period') == '12')
+                            Desember
+                        @else
+                            Bulan ini
+                        @endif
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="period" style="top: 60px">
+                        <a class="dropdown-item" style="border-radius: 0;" href="?period=1">Januari</a>
+                        <a class="dropdown-item" style="border-radius: 0;" href="?period=2">Februari</a>
+                        <a class="dropdown-item" style="border-radius: 0;" href="?period=3">Maret</a>
+                        <a class="dropdown-item" style="border-radius: 0;" href="?period=4">April</a>
+                        <a class="dropdown-item" style="border-radius: 0;" href="?period=5">Mei</a>
+                        <a class="dropdown-item" style="border-radius: 0;" href="?period=6">Juni</a>
+                        <a class="dropdown-item" style="border-radius: 0;" href="?period=7">Juli</a>
+                        <a class="dropdown-item" style="border-radius: 0;"
+                           href="?period=8">Agustus</a>
+                        <a class="dropdown-item" style="border-radius: 0;" href="?period=9">September</a>
+                        <a class="dropdown-item" style="border-radius: 0;" href="?period=10">Oktober</a>
+                        <a class="dropdown-item" style="border-radius: 0;"
+                           href="?period=11">November</a>
+                        <a class="dropdown-item" style="border-radius: 0;"
+                           href="?period=12">Desember</a>
+                    </div>
                 </div>
+
 
                 <table style=" display: block; width: 100%; overflow-x: auto;font-size: 12px;"
                        class="table table-responsive-md table-striped display"
