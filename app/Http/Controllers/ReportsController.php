@@ -632,7 +632,7 @@ class ReportsController extends Controller{
             ,masteremployee.nip as nip');
 
             if (\request()->has('period')) {
-                $date = Carbon::create()->month((int)\request()->has('period'));
+                $date = Carbon::create()->month(8);
                 dd($date);
                 $start_period = getStartPeriod((int)$date->format('m'));
                 $end_period = getEndPeriod((int)$date->format('m'));
