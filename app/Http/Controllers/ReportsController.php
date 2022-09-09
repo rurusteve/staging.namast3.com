@@ -631,19 +631,18 @@ class ReportsController extends Controller{
             ,masteremployee.institusi as institusi, masteremployee.kota as kota, masteremployee.grup as grup, masteremployee.positionid as position
             ,masteremployee.nip as nip');
 
-            if (\request()->has('week') && \request()->has('period')) {
+            if (\request()->has('period')) {
                 $date = Carbon::parse(\request()->has('period'));
 
                 $start_period = getStartPeriod($date->format('m'));
                 $end_period = getEndPeriod($date->format('m'));
                 
                 $timereports = $timereports->whereBetween('date', [$start_period, $end_period]);
-                dd($start_period);
             } 
-            if (\request()->has('week') && \request()->has('month')) {
+            if (\request()->has('month')) {
                 $timereports = $timereports->whereMonth('mastertimereports.date', \request('month'));
             } 
-            if (\request()->has('week') && \request()->has('week')) {
+            if (\request()->has('week')) {
                 $timereports = $timereports->where('mastertimereports.week', '=', \request('week'));
             }
             if (\request()->has('startdate') && \request()->has('enddate')) {
