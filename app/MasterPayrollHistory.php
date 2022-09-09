@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -329,7 +330,13 @@ class MasterPayrollHistory extends Model
                             $phistory->pajakpenghasilan = (95000000 + ($phistory->pkppembulatan - 500000000) * (30 / 100)) * (120 / 100);
                         }
                     }
-                    $phistory->persenupah = ($phistory->jumlahupahtetapaktual / $phistory->penghasilanbruto) * 100;
+                    try {
+                        $phistory->persenupah = ($phistory->jumlahupahtetapaktual / $phistory->penghasilanbruto) * 100;
+                    }
+                    catch (Exception $e){
+                        dd('test');
+                    }
+                        
                     if ($phistory->persenupah >= 75) {
                         $phistory->cekpersenupah = "Y";
                     } else {
