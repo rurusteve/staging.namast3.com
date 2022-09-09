@@ -630,15 +630,15 @@ class ReportsController extends Controller{
             ,masteremployee.nip as nip');
             
             if (\request()->has('week') && \request()->has('month')) {
-                $timereports->whereMonth('mastertimereports.date', \request('month'));
+                $timereports = $timereports->whereMonth('mastertimereports.date', \request('month'));
             } if (\request()->has('week') && \request()->has('week')) {
-                $timereports->where('mastertimereports.week', '=', \request('week'));
+                $timereports = $timereports->where('mastertimereports.week', '=', \request('week'));
             } 
             if (\request()->has('startdate') && \request()->has('enddate')) {
-                $timereports->whereBetween('date', [\request('startdate'), \request('enddate')]);
+                $timereports = $timereports->whereBetween('date', [\request('startdate'), \request('enddate')]);
             } 
                 
-            $timereports->orderBy('mastertimereports.created_at', 'desc')
+            $timereports = $timereports->orderBy('mastertimereports.created_at', 'desc')
             ->groupBy('mastertimereports.nip')
             ->get();
     
