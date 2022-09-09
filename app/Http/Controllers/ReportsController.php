@@ -16,7 +16,9 @@ use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Database;
-
+use function App\getEndPeriod;
+use function App\getPeriod;
+use function App\getStartPeriod;
 
 
 class ReportsController extends Controller{
@@ -628,14 +630,24 @@ class ReportsController extends Controller{
             ,SUM(mastertimereports.overtimetransportation) as overtimetransportation, masteremployee.nama as nama, mastertimereports.date as date
             ,masteremployee.institusi as institusi, masteremployee.kota as kota, masteremployee.grup as grup, masteremployee.positionid as position
             ,masteremployee.nip as nip');
-            
+
+            if (\request()->has('week') && \request()->has('period')) {
+                $start_period_this_month = getStartPeriod($now->format('m'));
+                $end_period_this_month = getEndPeriod($now->format('m'));
+        
+                $start_period = getStartPeriod($date->format('m'));
+                $end_period = getEndPeriod($date->format('m'));
+                
+                $timereports = $timereports->whereMonth('mastertimereports.date', \request('month'));
+            } 
             if (\request()->has('week') && \request()->has('month')) {
                 $timereports = $timereports->whereMonth('mastertimereports.date', \request('month'));
-            } if (\request()->has('week') && \request()->has('week')) {
-                $timereports = $timereports->where('mastertimereports.week', '=', \request('week'));
             } 
+            if (\request()->has('week') && \request()->has('week')) {
+                $timereports = $timereports->where('mastertimereports.week', '=', \request('week'));
+            }
             if (\request()->has('startdate') && \request()->has('enddate')) {
-                $timereports = $timereports->whereBetween('date', [\request('startdate'), \request('enddate')]);
+                $timereports = $timereports->whereBetween('date', [$start_period, $end_period]);
             } 
                 
             $timereports = $timereports->orderBy('mastertimereports.created_at', 'desc')
