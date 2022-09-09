@@ -620,31 +620,73 @@ class ReportsController extends Controller{
     public function timereport(){
         if (Auth::user()->division === 'HRD' || Auth::user()->division === 'PARTNER' && Auth::user()->admin >= 0) {
             $thisyear = Carbon::now()->year;
-            $timereports = DB::table('mastertimereports')
+
+            if (\request()->has('week') && \request()->has('month')) {
+                $timereports = DB::table('mastertimereports')
                     ->leftJoin('masterclients', 'mastertimereports.clientid', '=', 'masterclients.id')
                     ->leftJoin('masteremployee', 'mastertimereports.nip', '=', 'masteremployee.nip')
                     ->selectRaw('SUM(mastertimereports.normalhours) as normalhours, SUM(mastertimereports.overtimes) as overtimes
             ,SUM(mastertimereports.ineffectivehours) as ineffectivehours, SUM(mastertimereports.overtimemeal) as overtimemeal
             ,SUM(mastertimereports.overtimetransportation) as overtimetransportation, masteremployee.nama as nama, mastertimereports.date as date
             ,masteremployee.institusi as institusi, masteremployee.kota as kota, masteremployee.grup as grup, masteremployee.positionid as position
-            ,masteremployee.nip as nip');
-
-            if (\request()->has('month')) {
-                    $timereports->where('mastertimereports.week', '=', \request('month'));
+            ,masteremployee.nip as nip')
+                    ->where('mastertimereports.week', '=', \request('week'))
+                    ->whereMonth('mastertimereports.date', \request('month'))
+                    ->orderBy('mastertimereports.created_at', 'desc')
+                    ->groupBy('mastertimereports.nip')
+                    ->get();
+            } elseif (\request()->has('week')) {
+                $timereports = DB::table('mastertimereports')
+                    ->leftJoin('masterclients', 'mastertimereports.clientid', '=', 'masterclients.id')
+                    ->leftJoin('masteremployee', 'mastertimereports.nip', '=', 'masteremployee.nip')
+                    ->selectRaw('SUM(mastertimereports.normalhours) as normalhours, SUM(mastertimereports.overtimes) as overtimes
+            ,SUM(mastertimereports.ineffectivehours) as ineffectivehours, SUM(mastertimereports.overtimemeal) as overtimemeal
+            ,SUM(mastertimereports.overtimetransportation) as overtimetransportation, masteremployee.nama as nama, mastertimereports.date as date
+            ,masteremployee.institusi as institusi, masteremployee.kota as kota, masteremployee.grup as grup, masteremployee.positionid as position
+            ,masteremployee.nip as nip')
+                    ->where('mastertimereports.week', '=', \request('week'))
+                    ->orderBy('mastertimereports.created_at', 'desc')
+                    ->groupBy('mastertimereports.nip')
+                    ->get();
+            } elseif (\request()->has('month')) {
+                $timereports = DB::table('mastertimereports')
+                    ->leftJoin('masterclients', 'mastertimereports.clientid', '=', 'masterclients.id')
+                    ->leftJoin('masteremployee', 'mastertimereports.nip', '=', 'masteremployee.nip')
+                    ->selectRaw('SUM(mastertimereports.normalhours) as normalhours, SUM(mastertimereports.overtimes) as overtimes
+            ,SUM(mastertimereports.ineffectivehours) as ineffectivehours, SUM(mastertimereports.overtimemeal) as overtimemeal
+            ,SUM(mastertimereports.overtimetransportation) as overtimetransportation, masteremployee.nama as nama, mastertimereports.date as date
+            ,masteremployee.institusi as institusi, masteremployee.kota as kota, masteremployee.grup as grup, masteremployee.positionid as position
+            ,masteremployee.nip as nip')
+                    ->whereMonth('date', '=', \request('month'))
+                    ->orderBy('mastertimereports.created_at', 'desc')
+                    ->groupBy('mastertimereports.nip')
+                    ->get();
+            } elseif (\request()->has('startdate') && \request()->has('enddate')) {
+                $timereports = DB::table('mastertimereports')
+                    ->leftJoin('masterclients', 'mastertimereports.clientid', '=', 'masterclients.id')
+                    ->leftJoin('masteremployee', 'mastertimereports.nip', '=', 'masteremployee.nip')
+                    ->selectRaw('SUM(mastertimereports.normalhours) as normalhours, SUM(mastertimereports.overtimes) as overtimes
+            ,SUM(mastertimereports.ineffectivehours) as ineffectivehours, SUM(mastertimereports.overtimemeal) as overtimemeal
+            ,SUM(mastertimereports.overtimetransportation) as overtimetransportation, masteremployee.nama as nama, mastertimereports.date as date
+            ,masteremployee.institusi as institusi, masteremployee.kota as kota, masteremployee.grup as grup, masteremployee.positionid as position
+            ,masteremployee.nip as nip')
+                    ->whereBetween('date', [\request('startdate'), \request('enddate')])
+                    ->orderBy('mastertimereports.created_at', 'desc')
+                    ->groupBy('mastertimereports.nip')
+                    ->get();
+            } else {
+                $timereports = DB::table('mastertimereports')
+                    ->leftJoin('masterclients', 'mastertimereports.clientid', '=', 'masterclients.id')
+                    ->leftJoin('masteremployee', 'mastertimereports.nip', '=', 'masteremployee.nip')
+                    ->selectRaw('SUM(mastertimereports.normalhours) as normalhours, SUM(mastertimereports.overtimes) as overtimes
+            ,SUM(mastertimereports.ineffectivehours) as ineffectivehours,  SUM(mastertimereports.editineffective) as editineffective , SUM(mastertimereports.overtimemeal) as overtimemeal
+            ,SUM(mastertimereports.overtimetransportation) as overtimetransportation, masteremployee.nama as nama, mastertimereports.date as date
+            ,masteremployee.institusi as institusi, masteremployee.kota as kota, masteremployee.grup as grup, masteremployee.positionid as position
+            ,masteremployee.nip as nip')
+                    ->orderBy('mastertimereports.created_at', 'desc')
+                    ->groupBy('mastertimereports.nip')
+                    ->get();
             }
-            if (\request()->has('week')) {
-                $timereports->where('mastertimereports.week', '=', \request('week'));
-            }
-            
-            if (\request()->has('startdate') && \request()->has('enddate')) {
-           
-                $timereports->whereBetween('date', [\request('startdate'), \request('enddate')]);
-            } 
-            
-            $timereports->orderBy('mastertimereports.created_at', 'desc');
-            $timereports->groupBy('mastertimereports.nip');
-            $timereports->get();
-
             $institusis = DB::table('masteremployee')
                 ->groupBy('institusi')
                 ->get();
@@ -667,11 +709,11 @@ class ReportsController extends Controller{
                 ->groupBy('period')
                 ->get();
 
-            if (\request()->has('period')) {
-                $month = \request('period');
-            }else{
-                $month = Carbon::now()->format('m');
-            }
+                if (\request()->has('period')) {
+                    $month = \request('period');
+                }else{
+                    $month = Carbon::now()->format('m');
+                }
 
             return view('reports.timereportreporting', compact('periods', 'institusis', 'kotas', 'statuses', 'posisis', 'grades', 'grups', 'month'), ['timereports' => $timereports]);
         } else {
