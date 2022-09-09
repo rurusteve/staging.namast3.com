@@ -41,6 +41,7 @@ class MasterPayrollHistory extends Model
         $calculatedPayroll = [];
 
         foreach ($employees as $p) {
+           try{
             $phistory = new MasterPayrollHistory();
             $employeepayrolldata = MasterEmployee::where('nip', '=', trim($p->nip))->first();
             $datathismonth = MasterPayrollInput::where('nip', '=', $p->nip)->where('periode', $month)->first();
@@ -330,13 +331,7 @@ class MasterPayrollHistory extends Model
                             $phistory->pajakpenghasilan = (95000000 + ($phistory->pkppembulatan - 500000000) * (30 / 100)) * (120 / 100);
                         }
                     }
-                    try {
-                        $phistory->persenupah = ($phistory->jumlahupahtetapaktual / $phistory->penghasilanbruto) * 100;
-                    }
-                    catch (Exception $e){
-                        dd($phistory->penghasilanbruto.$employeepayrolldata->nama.$jumlahharihadir);
-                    }
-                        
+                    $phistory->persenupah = ($phistory->jumlahupahtetapaktual / $phistory->penghasilanbruto) * 100;
                     if ($phistory->persenupah >= 75) {
                         $phistory->cekpersenupah = "Y";
                     } else {
@@ -397,6 +392,10 @@ class MasterPayrollHistory extends Model
                     }
                 }
             }
+           }
+           catch (Exception $e){
+                continue;
+           }
         }
 
         if(!$submit){
