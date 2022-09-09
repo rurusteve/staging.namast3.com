@@ -634,7 +634,7 @@ class ReportsController extends Controller{
             if (\request()->has('period')) {
                 $date = Carbon::create()->month(\request()->has('period'));
 
-                $start_period = getStartPeriod((int)$date->format('m'));
+                $start_period = getStartPeriod(8);
                 $end_period = getEndPeriod((int)$date->format('m'));
                 
                 $timereports = $timereports->whereBetween('date', [$start_period, $end_period]);
