@@ -15,7 +15,6 @@ function getPeriod(Carbon $date)
 
 function getStartPeriod(int $period)
 {
-    dd($period);
     $now = Carbon::now();
     $start_date = 25;
     $start_month    = ($period === 1) ? 12 : $period - 1;
