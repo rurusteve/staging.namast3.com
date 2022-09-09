@@ -358,6 +358,12 @@ class TimeReportController extends Controller
     }
     public function approveAllByPeriod(int $period)
     {
+        if (\request()->has('periode')) {
+            if (\request('periode') == 0) {
+            } else {
+                $period = \request()->has('periode');
+            }
+        }
         $timereport = new TimeReport();
         $timereport->approveAllByPeriod($period);
 
