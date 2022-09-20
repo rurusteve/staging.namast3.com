@@ -3,7 +3,6 @@
 namespace App;
 
 use Carbon\Carbon;
-use Carbon\CarbonPeriod;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -51,27 +50,36 @@ class MasterPayrollHistory extends Model
             $start_period = getStartPeriod((int)$period);
             $end_period = getEndPeriod((int)($period));
 
+            $weekdays = $start_period->diffInDaysFiltered(function(Carbon $date) {
+                return $date->isWeekend();
+            }, $end_period);
+
             $timereport = TimeReport::whereBetween('date', [$start_period->format('Y-m-d'), $end_period->format('Y-m-d')])
             ->where('nip', $p->nip)
-            // ->where('approved_by_incharge', TRUE)
-            // ->where('approved_by_hr', TRUE)
+            ->where('approved_by_incharge', TRUE)
+            ->where('approved_by_hr', TRUE)
             ->where('approved_by_partner', TRUE);
+            
             $normalhours = $timereport->sum('normalhours');
             $ineffectivehours = $timereport->sum('ineffectivehours');
             $editineffective = $timereport->sum('editineffective');
 
-            if (empty($datathismonth->jumlahharihadir)) {
+            if (empty($datathismonth->haridalamsebulan)) {
+                $datathismonth->haridalamsebulan = $end_period->diffInDays($start_period) + 1;
+            }
 
+            if (empty($datathismonth->jumlahharihadir)) {                
                 $jumlahharihadir = TimeReport::whereBetween('date', [$start_period->format('Y-m-d'), $end_period->format('Y-m-d')])
                 ->where('nip', $p->nip)
                 ->where('approved_by_incharge', TRUE)
                 ->where('approved_by_hr', TRUE)
                 ->groupBy('date')->count();
-                $datathismonth->jumlahharihadir = $jumlahharihadir;
-            }
 
-            if (empty($datathismonth->haridalamsebulan)) {
-                $datathismonth->haridalamsebulan = $end_period->diffInDays($start_period) + 1;
+                $datathismonth->jumlahharihadir = $datathismonth->haridalamsebulan;
+
+                if ($weekdays != $jumlahharihadir) {
+                    $datathismonth->jumlahharihadir = $datathismonth->haridalamsebulan - ($weekdays - $jumlahharihadir);
+                }
             }
 
             if (empty($datathismonth->jumlahjamlemburinput)) {
