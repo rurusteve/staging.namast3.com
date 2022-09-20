@@ -3,7 +3,6 @@
 namespace App;
 
 use Carbon\Carbon;
-use Carbon\CarbonPeriod;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -60,26 +59,17 @@ class MasterPayrollHistory extends Model
             $ineffectivehours = $timereport->sum('ineffectivehours');
             $editineffective = $timereport->sum('editineffective');
 
-            if (empty($datathismonth->haridalamsebulan)) {
-                $datathismonth->haridalamsebulan = $end_period->diffInDays($start_period) + 1;
-            }
-
             if (empty($datathismonth->jumlahharihadir)) {
-                $weekdays = CarbonPeriod::create($start_period->format('Y-m-d'), $end_period->format('Y-m-d'))->countWeekdays();
-
                 $jumlahharihadir = TimeReport::whereBetween('date', [$start_period->format('Y-m-d'), $end_period->format('Y-m-d')])
                 ->where('nip', $p->nip)
                 ->where('approved_by_incharge', TRUE)
                 ->where('approved_by_hr', TRUE)
                 ->groupBy('date')->count();
-                
-                $datathismonth->jumlahharihadir = $datathismonth->haridalamsebulan;
+                $datathismonth->jumlahharihadir = $jumlahharihadir;
+            }
 
-                if ($weekdays != $jumlahharihadir) {
-                    $datathismonth->jumlahharihadir = $datathismonth->haridalamsebulan - ($weekdays - $jumlahharihadir);
-                }
-
-                dd($datathismonth->jumlahharihadir);
+            if (empty($datathismonth->haridalamsebulan)) {
+                $datathismonth->haridalamsebulan = $end_period->diffInDays($start_period) + 1;
             }
 
             if (empty($datathismonth->jumlahjamlemburinput)) {
