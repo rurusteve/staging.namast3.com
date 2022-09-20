@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -60,6 +61,7 @@ class MasterPayrollHistory extends Model
             $editineffective = $timereport->sum('editineffective');
 
             if (empty($datathismonth->jumlahharihadir)) {
+
                 $jumlahharihadir = TimeReport::whereBetween('date', [$start_period->format('Y-m-d'), $end_period->format('Y-m-d')])
                 ->where('nip', $p->nip)
                 ->where('approved_by_incharge', TRUE)
