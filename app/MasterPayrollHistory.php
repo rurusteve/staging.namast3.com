@@ -65,7 +65,6 @@ class MasterPayrollHistory extends Model
             }
 
             if (empty($datathismonth->jumlahharihadir)) {
-                $weekdays = CarbonPeriod::create($start_period->format('Y-m-d'), $end_period->format('Y-m-d'))->countWeekdays();
 
                 $jumlahharihadir = TimeReport::whereBetween('date', [$start_period->format('Y-m-d'), $end_period->format('Y-m-d')])
                 ->where('nip', $p->nip)
@@ -75,9 +74,11 @@ class MasterPayrollHistory extends Model
                 
                 $datathismonth->jumlahharihadir = $datathismonth->haridalamsebulan;
 
-                if ($weekdays != $jumlahharihadir) {
-                    $datathismonth->jumlahharihadir = $datathismonth->haridalamsebulan - ($weekdays - $jumlahharihadir);
+                if ($jumlahharihadir) {
+                    $datathismonth->jumlahharihadir = $datathismonth->haridalamsebulan - ($jumlahharihadir);
                 }
+
+                dd($datathismonth->jumlahharihadir);
             }
 
             if (empty($datathismonth->jumlahjamlemburinput)) {
