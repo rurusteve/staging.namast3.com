@@ -55,11 +55,11 @@ class MasterPayrollHistory extends Model
             }, $end_period);
 
             $timereport = TimeReport::whereBetween('date', [$start_period->format('Y-m-d'), $end_period->format('Y-m-d')])
-            ->where('nip', $p->nip)
-            ->where('approved_by_incharge', TRUE)
-            ->where('approved_by_hr', TRUE)
-            ->where('approved_by_partner', TRUE);
-            
+            ->where('nip', $p->nip);
+            // ->where('approved_by_incharge', TRUE)
+            // ->where('approved_by_hr', TRUE)
+            // ->where('approved_by_partner', TRUE);
+
             $normalhours = $timereport->sum('normalhours');
             $ineffectivehours = $timereport->sum('ineffectivehours');
             $editineffective = $timereport->sum('editineffective');
@@ -71,8 +71,8 @@ class MasterPayrollHistory extends Model
             if (empty($datathismonth->jumlahharihadir)) {                
                 $jumlahharihadir = TimeReport::whereBetween('date', [$start_period->format('Y-m-d'), $end_period->format('Y-m-d')])
                 ->where('nip', $p->nip)
-                ->where('approved_by_incharge', TRUE)
-                ->where('approved_by_hr', TRUE)
+                // ->where('approved_by_incharge', TRUE)
+                // ->where('approved_by_hr', TRUE)
                 ->groupBy('date')->count();
 
                 $datathismonth->jumlahharihadir = $datathismonth->haridalamsebulan;
