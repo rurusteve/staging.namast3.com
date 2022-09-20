@@ -78,8 +78,6 @@ class MasterPayrollHistory extends Model
                 if ($weekdays != $jumlahharihadir) {
                     $datathismonth->jumlahharihadir = $datathismonth->haridalamsebulan - ($weekdays - $jumlahharihadir);
                 }
-
-                dd($datathismonth->jumlahharihadir);
             }
 
             if (empty($datathismonth->jumlahjamlemburinput)) {
