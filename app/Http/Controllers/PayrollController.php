@@ -492,7 +492,7 @@ class PayrollController extends Controller
     {
         $groups = Group::all();
         $positions = Positions::all();
-        return view('hrd.payroll.inputemployee', compact('groups', 'position'));
+        return view('hrd.payroll.inputemployee', compact('groups', 'positions'));
     }
 
     /**
