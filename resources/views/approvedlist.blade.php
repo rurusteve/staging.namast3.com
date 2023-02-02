@@ -64,7 +64,7 @@
                     </div>
 
                     <div class="card-body">
-                        <form method="GET" action="{{ url('/leave/list') }}">
+                        <form method="GET" action="{{ url('/cuti/list') }}">
                             @csrf
                             <div class="row">
                                 <div class="col-md-12">
@@ -159,7 +159,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ucwords(strtolower($approvedlist->nama))}}</td>
                                     <td>
-                                        <a href="{{ url('/leave/list/'.$approvedlist->nip) }}"><i
+                                        <a href="{{ url('/cuti/list/'.$approvedlist->nip) }}"><i
                                                     class="fas fa-search-plus"></i></a></td>
                                     @if($approvedlist->statuscuti == "approved")
                                         <td style="color: green;">Approved</td>
@@ -236,7 +236,7 @@
                                         @else
                                         @endif
                                     <td>
-                                        <a style="color: red;" href="{{ url('leave/list/delete/'.$approvedlist->id) }}" onclick="return confirm('Are you sure?')">Delete <i class="fa fa-trash-alt"></i></a>
+                                        <a style="color: red;" href="{{ url('cuti/list/delete/'.$approvedlist->id) }}" onclick="return confirm('Are you sure?')">Delete <i class="fa fa-trash-alt"></i></a>
                                     </td>
                                     @if(Auth::user()->division == 'HRD' || Auth::user()->division == 'PARTNER')
                                     @if($approvedlist->ketbyhrd == null || $approvedlist->ketbyhrd == '')
@@ -298,7 +298,7 @@
                         @if($employees == null)
 
                         @elseif ($employees !== null || $employees !== 'null')
-                        <a style="float: right;" href="{{ url('/leave/list') }}" class="btn btn-info">
+                        <a style="float: right;" href="{{ url('/cuti/list') }}" class="btn btn-info">
                             <i class="far fa-eye"></i> View all data
                         </a>
                             @endif

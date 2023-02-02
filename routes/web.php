@@ -91,6 +91,10 @@ Route::prefix('cuti')->name('cuti.')->group(function () {
    Route::get('home/{id}/delete', 'TimeReportController@deleterequest')->middleware('auth');
    Route::get('home/{id}/detail', 'TimeReportController@detailstatuscuti')->middleware('auth');
 
+    Route::get('list', 'AdministratorController@leavelist')->name('leavelist')->middleware('auth');
+    Route::get('list/{nip}', 'AdministratorController@leavelistnip')->middleware('auth');
+    Route::get('list/delete/{id}', 'AdministratorController@destroyleave')->middleware('auth');
+
 });
 
 // Route::get('/time-report/bulk-edit', 'TimeReportController@indexBulk');
@@ -128,10 +132,6 @@ Route::post('/manualinput/bulkmodify/plus', 'AdministratorController@bulkleavesu
 Route::get('/manualinput', 'AdministratorController@manualinputindex')->name('manualinputlist')->middleware('auth');
 Route::post('/manualinput/modify/{id}', 'AdministratorController@manualinputmodify')->middleware('auth');
 Route::get('/manualinput/checkdetail/{id}', 'AdministratorController@manualinputdetail')->name('manualinputdetail')->middleware('auth');
-
-Route::get('/leave/list', 'AdministratorController@leavelist')->name('leavelist')->middleware('auth');
-Route::get('/leave/list/{nip}', 'AdministratorController@leavelistnip')->middleware('auth');
-Route::get('/leave/list/delete/{id}', 'AdministratorController@destroyleave')->middleware('auth');
 
 Route::get('/adminrequestleavelist', 'HomeController@requestleavelist')->middleware('auth');
 Route::get('/adminrequestleavelist/approve/{nip}/{id}', 'HomeController@approverequestform')->middleware('auth');

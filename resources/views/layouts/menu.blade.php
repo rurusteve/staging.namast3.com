@@ -70,7 +70,7 @@
             @yield('reports')
         </li>
         <li class="nav-item ">
-            <a class="nav-link" href="/leave/list">
+            <a class="nav-link" href="/cuti/list">
                 <i class="fas fa-vote-yea"></i>
                 <p> Leave Request List</p>
             </a>
@@ -146,7 +146,7 @@
                 <div class="card-body">
                     <div class="filterlist">
                         <a class="filterlink" href="{{ url('/manualinput') }}">Leave Editor</a><br>
-                        <a class="filterlink" href="{{ url('/leave/list') }}">Leave Request List</a><br>
+                        <a class="filterlink" href="{{ url('/cuti/list') }}">Leave Request List</a><br>
                     </div>
                 </div>
             </div>
@@ -220,7 +220,7 @@
                 <div class="card-body">
                     <div class="filterlist">
                         <a class="filterlink" href="{{ url('/manualinput') }}">Leave Editor</a><br>
-                        <a class="filterlink" href="{{ url('/leave/list') }}">Leave Request List</a><br>
+                        <a class="filterlink" href="{{ url('/cuti/list') }}">Leave Request List</a><br>
                     </div>
                 </div>
             </div>

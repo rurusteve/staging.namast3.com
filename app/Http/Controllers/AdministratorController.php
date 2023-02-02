@@ -401,7 +401,7 @@ class AdministratorController extends Controller
 
         $leaverequest = DB::table('leaverequest')->where('id', $id);
         $leaverequest->delete();
-        return redirect('/leave/list')->with('success', 'Data cuti '.$deletedleaverequestdata->nama.' pada tanggal '.$deletedleaverequestdata->tanggalmulaicuti.' - '.$deletedleaverequestdata->tanggalakhircuti.' berhasil dihapus');
+        return redirect('/cuti/list')->with('success', 'Data cuti '.$deletedleaverequestdata->nama.' pada tanggal '.$deletedleaverequestdata->tanggalmulaicuti.' - '.$deletedleaverequestdata->tanggalakhircuti.' berhasil dihapus');
     }
 
 
