@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Groups')
+@section('title', 'positions')
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -15,11 +15,11 @@
                         Add Position
                     </div>
                     <div class="card-body">
-                        <form action="{{ URL::to('/team/groups/') }}" method="POST">
+                        <form action="{{ URL::to('/team/positions/') }}" method="POST">
                             {{ csrf_field() }}
 
-                            <div class="form-group row">
-                                <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Group Name') }}</label>
+                            <div class="form-position row">
+                                <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Position Name') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="name" type="text"
@@ -34,45 +34,11 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <label for="code" class="col-md-4 col-form-label text-md-right">{{ __('Group Code') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="code" type="text"
-                                           class="form-control{{ $errors->has('code') ? ' is-invalid' : '' }}"
-                                           code="code" value="{{ old('code') }}" required autofocus>
-
-                                    @if ($errors->has('code'))
-                                        <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('code') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label for="divisions" class="col-md-4 col-form-label text-md-right">{{ __('Divisions') }}</label>
-
-                                <div class="col-md-6">
-                                    <select class="form-control" name="divisions" value="{{ old('divisions') }}" required>
-                                        @foreach($divisions as $division)
-                                        <option value="{{$division->id}}" {{ old('divisions') }}>{{$division->name}}</option>
-                                        @endforeach
-                                    </select>
-
-                                    @if ($errors->has('divisions'))
-                                        <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('divisions') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-
                             <script type="text/javascript">
                                 $(".chosen").chosen();
                             </script>
 
-                            <div class="form-group row mb-0" style="display: flex; justify-content: center;">
+                            <div class="form-position row mb-0" style="display: flex; justify-content: center;">
 
                                 <a href="{{url()->previous()}}">
                                     <button type="button" class="btn btn-outline-secondary">Cancel</button>
@@ -90,22 +56,4 @@
         </div>
     </div>
 
-    <script>
-            $('#clientselect').on('change', function () {
-                $('#period')
-                    .val(
-                        $(this).find(':selected').data('period')
-                    );
-                $('#type')
-                    .val(
-                        $(this).find(':selected').data('type')
-                    );
-                $('#location')
-                    .val(
-                        $(this).find(':selected').data('location')
-                    );
-            });
-
-
-    </script>
 @endsection

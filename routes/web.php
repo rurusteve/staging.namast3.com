@@ -19,6 +19,7 @@ Route::get('/pdfviewbyperiod/{id}/{periode}/{year}/{crypt}', 'HomeController@pdf
 use App\Http\Controllers\DelegationController;
 use App\Http\Controllers\EngagementTypeController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\PositionController;
 use App\Http\Controllers\TimeReportController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -52,10 +53,10 @@ Route::prefix('team')->name('team.')->group(function () {
         Route::delete('{id}', [GroupController::class, 'delete'])->name('deletegroup');
     });
     Route::prefix('positions')->name('positions.')->group(function () {
-        Route::get('', [GroupController::class, 'index'])->name('indexposition');
-        Route::get('create', [GroupController::class, 'create'])->name('createposition');
-        Route::post('', [GroupController::class, 'index'])->name('storeposition');
-        Route::delete('{id}', [GroupController::class, 'delete'])->name('deleteposition');
+        Route::get('', [PositionController::class, 'index'])->name('indexposition');
+        Route::get('create', [PositionController::class, 'create'])->name('createposition');
+        Route::post('', [PositionController::class, 'index'])->name('storeposition');
+        Route::delete('{id}', [PositionControllers::class, 'delete'])->name('deleteposition');
     });
 });
 
