@@ -12,7 +12,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        Add Group
+                        Add Position
                     </div>
                     <div class="card-body">
                         <form action="{{ URL::to('/team/groups/') }}" method="POST">

@@ -51,6 +51,12 @@ Route::prefix('team')->name('team.')->group(function () {
         Route::post('', [GroupController::class, 'index'])->name('storegroup');
         Route::delete('{id}', [GroupController::class, 'delete'])->name('deletegroup');
     });
+    Route::prefix('positions')->name('positions.')->group(function () {
+        Route::get('', [GroupController::class, 'index'])->name('indexposition');
+        Route::get('create', [GroupController::class, 'create'])->name('createposition');
+        Route::post('', [GroupController::class, 'index'])->name('storeposition');
+        Route::delete('{id}', [GroupController::class, 'delete'])->name('deleteposition');
+    });
 });
 
 Route::prefix('administration')->name('administration.')->group(function () {
