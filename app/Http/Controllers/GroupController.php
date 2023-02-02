@@ -25,7 +25,7 @@ class GroupController extends Controller
     public function store(Request $request)
     {
         $group = new Group();
-        $group->division_id = $request->division_id;
+        $group->divisions = $request->divisions;
         $group->name = $request->name;
         $group->code = $request->code;
         $group->save();
