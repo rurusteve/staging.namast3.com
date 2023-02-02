@@ -214,9 +214,12 @@
                                 <div class="form-group col-md-6">
                                     <label for="grup" class=" col-form-label text-md-right">{{ __('Group') }}</label>
 
-                                    <input id="grup" type="text"
-                                           class="form-control{{ $errors->has('grup') ? ' is-invalid' : '' }}"
-                                           name="grup" value="{{ old('grup') }}" required>
+                                    <select class="form-control" name="divisi" value="{{ old('divisi') }}" required>
+                                        <option value="" selected disabled>Choose Group</option>                                        
+                                        @foreach ($groups as $group)
+                                            <option value="{{$group->id}}">{{$group->name}}</option>
+                                        @endforeach
+                                    </select>
 
                                     @if ($errors->has('grup'))
                                         <span class="invalid-feedback" role="alert">
@@ -231,11 +234,9 @@
                                            class=" col-form-label text-md-right">{{ ('Division') }}</label>
 
                                     <select class="form-control" name="divisi" value="{{ old('divisi') }}" required>
-                                        <option value="" selected disabled>Choose Division</option>
-                                        
-                                        <option value="" disabled>Professional</option>
-                                        @foreach ($groups as $group)
-                                            <option value="{{$group->id}}">{{$group->name}}</option>
+                                        <option value="" selected disabled>Choose Division</option>                                        
+                                        @foreach ($divisions as $division)
+                                            <option value="{{$division->id}}">{{$division->name}}</option>
                                         @endforeach
                                     </select>
 

@@ -8,6 +8,7 @@ use App\DeletedPayrollInput;
 use App\Exports\PayrollCalculationExport;
 use App\Group;
 use App\Division;
+use App\Divisions;
 use App\EmployeeHistory;
 use App\EmployeePosition;
 use App\MasterPayrollHistory;
@@ -492,7 +493,8 @@ class PayrollController extends Controller
     {
         $groups = Group::all();
         $positions = Positions::all();
-        return view('hrd.payroll.inputemployee', compact('groups', 'positions'));
+        $divisions = Divisions::all();
+        return view('hrd.payroll.inputemployee', compact('groups', 'positions', 'divisions'));
     }
 
     /**
