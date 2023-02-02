@@ -56,7 +56,7 @@ Route::prefix('team')->name('team.')->group(function () {
         Route::get('', [PositionController::class, 'index'])->name('indexposition');
         Route::get('create', [PositionController::class, 'create'])->name('createposition');
         Route::post('', [PositionController::class, 'store'])->name('storeposition');
-        Route::delete('{id}', [PositionControllers::class, 'delete'])->name('deleteposition');
+        Route::delete('{id}', [PositionController::class, 'delete'])->name('deleteposition');
     });
 });
 
