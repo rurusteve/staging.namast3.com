@@ -183,32 +183,9 @@
                                     <select class="form-control" name="positionid" value="{{ old('positionid') }}"
                                             required>
                                         <option value="" selected disabled>Choose Position</option>
-                                        <option disabled>Professional</option>
-                                        <option value="JUNIOR 1A">Junior 1A</option>
-                                        <option value="JUNIOR 1B">Junior 1B</option>
-                                        <option value="SEMI SENIOR">Semi Senior</option>
-                                        <option value="SEMI SENIOR (EXP)">Semi Senior (EXP)</option>
-                                        <option value="SENIOR">Senior</option>
-                                        <option value="SENIOR (EXP)">Senior (EXP)</option>
-                                        <option value="ASS. SUPERVISOR">Ass. Supervisor</option>
-                                        <option value="SUPERVISOR">Supervisor</option>
-                                        <option value="JUNIOR MAANGER">Junior Manager</option>
-                                        <option value="MANAGER">Manager</option>
-                                        <option value="SENIOR MANAGER">Senior Manager</option>
-                                        <option value="JUNIOR PARTNER">Junior Partner</option>
-                                        <option value="CLIENT SVS. PARTNER">Client Svs. Partner</option>
-                                        <option value="SIGNING PARTNER">Signing Partner</option>
-                                        <option value="SENIOR PARTNER">Senior Partner</option>
-                                        <option style="font-weight: bold;" disabled>Administration</option>
-                                        <option value="ENTREE">Entree</option>
-                                        <option value="JUNIOR ADMINISTRATOR">Junior Administrator</option>
-                                        <option value="ADMINISTRATOR">Administrator</option>
-                                        <option value="SENIOR ADMINISTRATOR">Senior Administrator</option>
-                                        <option value="ASS. SUPERVISOR">Ass. Supervisor</option>
-                                        <option value="SUPERVISOR">Supervisor</option>
-                                        <option value="ASS. MANAGER">Ass. Manager</option>
-                                        <option value="MANAGER">Manager</option>
-                                        <option value="GENERAL MANAGER">General Manager</option>
+                                        @foreach ($positions as $position)
+                                            <option value="{{$position->id}}">{{$position->name}}</option>
+                                        @endforeach
                                     </select>
                                     @if ($errors->has('positionid'))
                                         <span class="invalid-feedback"
