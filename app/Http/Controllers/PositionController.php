@@ -23,16 +23,16 @@ class PositionController extends Controller
 
     public function store(Request $request)
     {
-        $group = new Positions();
-        $group->name = $request->name;
-        $group->save();
+        $position = new Positions();
+        $position->name = $request->name;
+        $position->save();
         return redirect()->back();
     }
 
     public function delete($id)
     {
-        $group = Positions::find($id);
-        $group->delete();
+        $position = Positions::find($id);
+        $position->delete();
         return redirect()->back();
     }
 }
