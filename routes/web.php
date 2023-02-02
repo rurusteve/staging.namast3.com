@@ -49,13 +49,13 @@ Route::prefix('team')->name('team.')->group(function () {
     Route::prefix('groups')->name('groups.')->group(function () {
         Route::get('', [GroupController::class, 'index'])->name('indexgroup');
         Route::get('create', [GroupController::class, 'create'])->name('creategroup');
-        Route::post('', [GroupController::class, 'index'])->name('storegroup');
+        Route::post('', [GroupController::class, 'store'])->name('storegroup');
         Route::delete('{id}', [GroupController::class, 'delete'])->name('deletegroup');
     });
     Route::prefix('positions')->name('positions.')->group(function () {
         Route::get('', [PositionController::class, 'index'])->name('indexposition');
         Route::get('create', [PositionController::class, 'create'])->name('createposition');
-        Route::post('', [PositionController::class, 'index'])->name('storeposition');
+        Route::post('', [PositionController::class, 'store'])->name('storeposition');
         Route::delete('{id}', [PositionControllers::class, 'delete'])->name('deleteposition');
     });
 });
