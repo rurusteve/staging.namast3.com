@@ -51,14 +51,14 @@ class MasterPayrollHistory extends Model
             $end_period = getEndPeriod((int)($period));
 
             $weekdays = $start_period->diffInDaysFiltered(function(Carbon $date) {
-                return $date->isWeekend();
+                return $date->isWeekday();
             }, $end_period);
-
+            
             $timereport = TimeReport::whereBetween('date', [$start_period->format('Y-m-d'), $end_period->format('Y-m-d')])
-            ->where('nip', $p->nip);
-            // ->where('approved_by_incharge', TRUE)
-            // ->where('approved_by_hr', TRUE)
-            // ->where('approved_by_partner', TRUE);
+            ->where('nip', $p->nip)
+            ->where('approved_by_incharge', TRUE)
+            ->where('approved_by_hr', TRUE)
+            ->where('approved_by_partner', TRUE);
 
             $normalhours = $timereport->sum('normalhours');
             $ineffectivehours = $timereport->sum('ineffectivehours');
@@ -71,14 +71,24 @@ class MasterPayrollHistory extends Model
             if (empty($datathismonth->jumlahharihadir)) {                
                 $jumlahharihadir = TimeReport::whereBetween('date', [$start_period->format('Y-m-d'), $end_period->format('Y-m-d')])
                 ->where('nip', $p->nip)
-                // ->where('approved_by_incharge', TRUE)
-                // ->where('approved_by_hr', TRUE)
-                ->groupBy('date')->count();
+                ->where('approved_by_incharge', TRUE)
+                ->where('approved_by_hr', TRUE)
+                ->where('approved_by_partner', TRUE)
+                ->groupBy('date')->get();
+                
+                $countWeekdays = 0;
+                
+                foreach($jumlahharihadir as $kehadiran){
+                    $hari = Carbon::parse($kehadiran->date);
+                    if($hari->isWeekday()){
+                        $countWeekdays = $countWeekdays + 1;
+                    }
+                }
 
                 $datathismonth->jumlahharihadir = $datathismonth->haridalamsebulan;
-
-                if ($weekdays != $jumlahharihadir) {
-                    $datathismonth->jumlahharihadir = $datathismonth->haridalamsebulan - ($weekdays - $jumlahharihadir);
+                
+                if (($datathismonth->haridalamsebulan - $weekdays) != $countWeekdays) {
+                    $datathismonth->jumlahharihadir = $datathismonth->haridalamsebulan - ($weekdays - $countWeekdays);
                 }
             }
 
@@ -95,18 +105,27 @@ class MasterPayrollHistory extends Model
             }
 
             if (empty($datathismonth->jumlahharilembur)) {
-                $harilembursebulan = TimeReport::whereBetween('date', [$start_period->format('Y-m-d'), $end_period->format('Y-m-d')])
+                $harilemburmakan = TimeReport::whereBetween('date', [$start_period->format('Y-m-d'), $end_period->format('Y-m-d')])
                 ->groupBy('date')
                 ->where('nip', $p->nip)
                 ->where('approved_by_incharge', TRUE)
                 ->where('approved_by_hr', TRUE)
-                ->where('overtimes', '>', 0)
+                ->where('approved_by_partner', TRUE)
+                ->where('overtimes', '>=', 2.5)
                 ->get();
-                $datathismonth->jumlahharilembur = count($harilembursebulan);
+                $datathismonth->jumlahharilembur = count($harilemburmakan);
             }
-
+            
             if (empty($datathismonth->jumlahharilembursebulan)) {
-                $datathismonth->jumlahharilembursebulan = $timereport->sum('lateovertime');
+                $harilemburtransport = TimeReport::whereBetween('date', [$start_period->format('Y-m-d'), $end_period->format('Y-m-d')])
+                ->groupBy('date')
+                ->where('nip', $p->nip)
+                ->where('approved_by_incharge', TRUE)
+                ->where('approved_by_hr', TRUE)
+                ->where('approved_by_partner', TRUE)
+                ->where('overtimes', '>=', 3.5)
+                ->get();
+                $datathismonth->jumlahharilembursebulan = count($harilemburtransport);
             }
 
             if (empty($datathismonth->jumlahharibermalam)) {
@@ -135,7 +154,6 @@ class MasterPayrollHistory extends Model
                     } else {
                         $phistory->crossceknpwp = 1;
                     }
-
                     $phistory->persenkehadiran = $datathismonth->jumlahharihadir / $datathismonth->haridalamsebulan * 100;
                     $phistory->jumlahupahtetap = $employeepayrolldata->gajipokok + $employeepayrolldata->tunjanganjabatan +
                         $employeepayrolldata->tunjangankesehatan + $employeepayrolldata->tunjanganlain;

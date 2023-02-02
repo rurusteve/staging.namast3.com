@@ -48,23 +48,45 @@
                                     @endif
                                 </div>
                             </div>
+                            
                             <div class="form-group row">
-                                <label for="activities" class="col-md-4 col-form-label text-md-right">{{ __('Activity Category') }}</label>
+                                <label for="division" class="col-md-4 col-form-label text-md-right">{{ __('Group') }}</label>
 
                                 <div class="col-md-6">
-                                    <select class="form-control" name="activities" value="{{ old('activities') }}" required>
-                                        <option value="" {{ old('activities') }} selected disabled>Choose Activity Category</option>
-                                        <option value="1" {{ old('activities') }}>Professional Activities Relating to Engagements</option>
-                                        <option value="2" {{ old('activities') }}>Administration Activities and UN</option>
+                                    <select id="group" required class="form-control" name="group">
+                                    <option value="{{ old('group') }}" selected disabled>Choose Group
+                                    </option>
+
+                                    @foreach($groups as $group)
+                                    <option value="{{$group->id}}">{{ucwords($group->name)}}</option>
+                                    @endforeach
+
                                     </select>
 
-                                    @if ($errors->has('activities'))
+                                    @if ($errors->has('group'))
                                         <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('activities') }}</strong>
+                                        <strong>{{ $errors->first('group') }}</strong>
                                     </span>
                                     @endif
                                 </div>
                             </div>
+                            <!--<div class="form-group row">-->
+                            <!--    <label for="activities" class="col-md-4 col-form-label text-md-right">{{ __('Activity Category') }}</label>-->
+
+                            <!--    <div class="col-md-6">-->
+                            <!--        <select class="form-control" name="activities" value="{{ old('activities') }}" required>-->
+                            <!--            <option value="" {{ old('activities') }} selected disabled>Choose Activity Category</option>-->
+                            <!--            <option value="1" {{ old('activities') }}>Professional Activities Relating to Engagements</option>-->
+                            <!--            <option value="2" {{ old('activities') }}>Administration Activities and UN</option>-->
+                            <!--        </select>-->
+
+                            <!--        @if ($errors->has('activities'))-->
+                            <!--            <span class="invalid-feedback" role="alert">-->
+                            <!--            <strong>{{ $errors->first('activities') }}</strong>-->
+                            <!--        </span>-->
+                            <!--        @endif-->
+                            <!--    </div>-->
+                            <!--</div>-->
 
                             <div class="form-group row mb-0" style="display: flex; justify-content: center;">
 

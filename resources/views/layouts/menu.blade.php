@@ -178,6 +178,7 @@
                         <a class="filterlink" href="{{ url('/team/groups') }}">Groups</a><br>
                         <a class="filterlink" href="{{ url('/administration/timereport/divisions') }}">Divisions</a><br>
                         <a class="filterlink" href="{{ url('/team/delegations') }}">Delegations</a><br>
+                        <a class="filterlink" href="{{ url('/administration/timereport/clients/msid') }}">Clients</a><br>
                     </div>
                 </div>
             </div>
@@ -292,6 +293,7 @@
                  data-parent="#accordionPayslips">
                 <div class="card-body">
                     <div class="filterlist">
+                        <a class="filterlink" href="{{ url('payslips/2023') }}">2023</a><br>
                         <a class="filterlink" href="{{ url('payslips/2022') }}">2022</a><br>
                         <a class="filterlink" href="{{ url('payslips/2021') }}">2021</a><br>
                         <a class="filterlink" href="{{ url('payslips/2020') }}">2020</a><br>

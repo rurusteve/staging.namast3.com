@@ -322,6 +322,9 @@
                                                            class="form-control"
                                                            name="inputregular" value="{{ $request->regular }}">
                                                 </div>
+                                                <input id="is_business_trip" type="text" hidden
+                                                           class="form-control"
+                                                           name="is_business_trip" value="{{ $request->is_business_trip }}">
                                                 <div class="form-group col-md-6">
                                                     <label for="overtime">{{ __('Overtime Hours') }}</label>
                                                     <input id="overtime" type="text" disabled

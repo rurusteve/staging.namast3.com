@@ -22,7 +22,7 @@
     </style>
     <div class="container">
         <div class="row justify-content-center">
-            <div style="margin-bottom: 15px;" class="col-md-6">
+            <div style="margin-bottom: 15px;" class="col-md-10">
 
                 <div class="card">
                     <div class="card-header card-header-info card-header-icon">
@@ -107,102 +107,128 @@
                                 <td>Fee (Non-rupiah)</td>
                                 <td><input class="form-control" name="feenonrupiah" type="text" value="{{ $clients -> feenonrupiah }}"></td>
                             </tr>
+                            
+                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+                            <script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
+                            <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet"/>
+                            <script>
+                                $(".chosen-select").chosen({
+                                  no_results_text: "Oops, nothing found!"
+                                })
+                            </script>
+                            <tr>
+                                <td>Group</td>
+                                 <td><select name="groups[]" id="groups" class="form-control chosen-select" multiple>
+                                        @foreach ($groups as $group)
+                                        @if(in_array($group->id, $client_groups))
+                                            <option value="{{$group->id}}" selected>{{$group->name}}</option>
+                                            @else
+                                            <option value="{{$group->id}}">{{$group->name}}</option>
+                                            @endif
+                                        @endforeach
+                                        </select>
+                                </td>
+                            </tr>
                             </tbody>
 
                         </table>
-                        <a class="btn btn-outline-primary" style="margin-right: 5px;" href="{{ URL::to('/administration/timereport/clients/msid') }}">
-                            <i class="fas fa-backward"></i> Back to Client List
+                        
+                        <a class="btn btn-outline-primary" style="margin-right: 5px;" href="{{ url()->previous() }}">
+                            
+                            <i class="fas fa-backward"></i> Back
                         </a>
+                        
                         <button type="submit" class="btn btn-primary" style="margin-right: 5px;" href="{{ URL::to('/administration/timereport/'.$clients->id.'/editclient') }}">
-                            <i class="fas fa-user-edit"></i> Submit Change
+                            <i class="fas fa-user-edit"></i> Update
                         </button>
                         </form>
                     </div>
                 </div>
             </div><br>
-            <div class="col-md-6">
+            <!--<div class="col-md-6">-->
 
-                <div style="color: #969696" class="card">
-                    <div class="card-header">
-                        Engagement Type
-                    </div>
+            <!--    <div style="color: #969696" class="card">-->
+            <!--        <div class="card-header">-->
+            <!--            Engagement Type-->
+            <!--        </div>-->
 
-                    <div class="card-body">
-                        <table class="table table-hover">
-                            <thead>
-                            <tr>
-                                <th>Code</th>
-                                <th>Name</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>A-001</td>
-                                <td>Accounting Services - Monthly</td>
-                            </tr>
-                            <tr>
+            <!--        <div class="card-body">-->
+            <!--            <table class="table table-hover">-->
+            <!--                <thead>-->
+            <!--                <tr>-->
+            <!--                    <th>Code</th>-->
+            <!--                    <th>Name</th>-->
+            <!--                </tr>-->
+            <!--                </thead>-->
+            <!--                <tbody>-->
+            <!--                <tr>-->
+            <!--                    <td>A-001</td>-->
+            <!--                    <td>Accounting Services - Monthly</td>-->
+            <!--                </tr>-->
+            <!--                <tr>-->
 
-                                <td>A-002</td>
-                                <td>Accounting Services - Project</td>
-                            </tr>
-                            <tr>
-                                <td>A-003</td>
-                                <td>Accounting Services - Review</td>
-                            </tr>
-                            <tr>
-                                <td>T-001</td>
-                                <td>Tax Services - Monthly</td>
-                            </tr>
-                            <tr>
-                                <td>T-002</td>
-                                <td>Tax Services - Yearly</td>
-                            </tr>
-                            <tr>
-                                <td>T-003</td>
-                                <td>Tax Services - Personal Tax</td>
-                            </tr>
-                            <tr>
-                                <td>T-004</td>
-                                <td>Tax Services - TP Documentation</td>
-                            </tr>
-                            <tr>
-                                <td>T-005</td>
-                                <td>Tax Services - Tax Audit</td>
-                            </tr>
-                            <tr>
-                                <td>T-006</td>
-                                <td>Tax Services - Tax Consultation</td>
-                            </tr>
-                            <tr>
-                                <td>T-099</td>
-                                <td>Tax Servixes - Others</td>
-                            </tr>
-                            <tr>
-                                <td>L-001</td>
-                                <td>Legal Services</td>
-                            </tr>
-                            <tr>
-                                <td>O-001</td>
-                                <td>Other Services</td>
-                            </tr>
-                            <tr>
-                                <td>M-001</td>
-                                <td>General Audit</td>
-                            </tr>
-                            <tr>
-                                <td>M-002</td>
-                                <td>Special Audit</td>
-                            </tr>
-                            <tr>
-                                <td>M-099</td>
-                                <td>Others</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+            <!--                    <td>A-002</td>-->
+            <!--                    <td>Accounting Services - Project</td>-->
+            <!--                </tr>-->
+            <!--                <tr>-->
+            <!--                    <td>A-003</td>-->
+            <!--                    <td>Accounting Services - Review</td>-->
+            <!--                </tr>-->
+            <!--                <tr>-->
+            <!--                    <td>T-001</td>-->
+            <!--                    <td>Tax Services - Monthly</td>-->
+            <!--                </tr>-->
+            <!--                <tr>-->
+            <!--                    <td>T-002</td>-->
+            <!--                    <td>Tax Services - Yearly</td>-->
+            <!--                </tr>-->
+            <!--                <tr>-->
+            <!--                    <td>T-003</td>-->
+            <!--                    <td>Tax Services - Personal Tax</td>-->
+            <!--                </tr>-->
+            <!--                <tr>-->
+            <!--                    <td>T-004</td>-->
+            <!--                    <td>Tax Services - TP Documentation</td>-->
+            <!--                </tr>-->
+            <!--                <tr>-->
+            <!--                    <td>T-005</td>-->
+            <!--                    <td>Tax Services - Tax Audit</td>-->
+            <!--                </tr>-->
+            <!--                <tr>-->
+            <!--                    <td>T-006</td>-->
+            <!--                    <td>Tax Services - Tax Consultation</td>-->
+            <!--                </tr>-->
+            <!--                <tr>-->
+            <!--                    <td>T-099</td>-->
+            <!--                    <td>Tax Servixes - Others</td>-->
+            <!--                </tr>-->
+            <!--                <tr>-->
+            <!--                    <td>L-001</td>-->
+            <!--                    <td>Legal Services</td>-->
+            <!--                </tr>-->
+            <!--                <tr>-->
+            <!--                    <td>O-001</td>-->
+            <!--                    <td>Other Services</td>-->
+            <!--                </tr>-->
+            <!--                <tr>-->
+            <!--                    <td>M-001</td>-->
+            <!--                    <td>General Audit</td>-->
+            <!--                </tr>-->
+            <!--                <tr>-->
+            <!--                    <td>M-002</td>-->
+            <!--                    <td>Special Audit</td>-->
+            <!--                </tr>-->
+            <!--                <tr>-->
+            <!--                    <td>M-099</td>-->
+            <!--                    <td>Others</td>-->
+            <!--                </tr>-->
+            <!--                </tbody>-->
+            <!--            </table>-->
+            <!--        </div>-->
+            <!--    </div>-->
+            <!--</div>-->
         </div>
     </div>
+
 @endsection
 

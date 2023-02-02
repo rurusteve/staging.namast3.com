@@ -8,6 +8,7 @@
             font-weight: bold;
         }
     </style>
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -206,6 +207,24 @@
                                 <strong>{{ $errors->first('keterangan') }}</strong>
                             </span>
                                     @endif
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="groups"
+                                       class="col-md-4 col-form-label text-md-right">{{ __('Groups Delegation') }}</label>
+
+                                <div class="col-md-6">
+                                    <select name="groups[]" id="groups" class="form-control" multiple>
+                                        @foreach ($groups as $group)
+                                        <option value="{{$group->id}}">{{$group->name}}</option>
+                                        @endforeach
+                                        </select>
+                                    @if ($errors->has('groups'))
+                                        <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('groups') }}</strong>
+                            </span>
+                                    @endif
+                                <p><br>Hold down the Ctrl (windows) or Command (Mac) button to select multiple options.</p>
                                 </div>
                             </div>
 

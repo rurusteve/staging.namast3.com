@@ -4,11 +4,30 @@
 
 @section('content')
     <style>
-        .table-striped tbody tr:nth-of-type(odd) {
+        .modal-open table{
+            /*table-layout: fixed;*/
         }
 
         .table thead th {
             vertical-align: middle;
+        }
+        .dtr-details td {
+            overflow: hidden;
+            word-wrap:break-word;
+            /*white-space: nowrap;*/
+        }
+        .dtr-details td div{
+          display: inline-block;
+          position: relative;
+          width: 100%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          vertical-align: top;
+            white-space: pre-wrap;
+        }
+        .modal-dialog{
+            max-width: 800px;
         }
     </style>
 
@@ -568,8 +587,6 @@
     </style>
     <div class="container">
         <div class="row justify-content-center">
-
-
             <div class="col-md-12">
                 <div class="col-md-auto">
 
@@ -602,7 +619,7 @@
                             </i>
                         </p>
                         <table style="display: inline-table; width: 100%; overflow-x: auto;font-size: 14px;"
-                               class="table responsive table-responsive-md table-striped display"
+                               class="table responsive table-responsive-lg table-striped display"
                                id="example">
                             <thead>
                             <tr>
@@ -679,7 +696,9 @@
                                     @if(isset($timereport->clientname))
                                     <td>{{$timereport->clientname}}</td>
                                     @endif
-                                    <td style="word-wrap: break-word">{{$timereport->description}}</td>
+                                    <td>
+                                    <div>{{$timereport->description}}</div>
+                                    </td>
                                     <td>
                                             <a class='btn btn-xs btn-outline-danger' onclick="return confirm('Do you want to delete the record?')"
                                                type='submit' data-placement="top"
@@ -759,9 +778,6 @@
                                 <i class="fas fa-file-upload"></i> Input Time Report
                             </a>
                             
-                            {{--<a href="" class="disabled btn btn-primary-info" data-toggle="modal" data-target="#exampleModalCenter3">--}}
-                                {{--<i class="fas fa-file-csv"></i> Mass Time Report--}}
-                            {{--</a>--}}
                         </div>
                     </div>
 
@@ -909,12 +925,7 @@
                 }
             </script>
         </div>
-
     </div>
-    <script type="text/javascript">
-
-    </script>
-
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
@@ -923,7 +934,6 @@
 
     <script>
         $(document).ready(function () {
-
             $('#example').DataTable({
                 "aaSorting": [],
                 responsive: {
@@ -939,12 +949,7 @@
                         })
                     }
                 },
-                oLanguage: {
-                    oPaginate: {
-                        sNext: '<span class="pagination-default"></span><span class="pagination-fa"><i class="fa fa-chevron-right" ></i></span>',
-                        sPrevious: '<span class="pagination-default"></span><span class="pagination-fa"><i class="fa fa-chevron-left" ></i></span>'
-                    }
-                },
+                
                 initComplete: function () {
                     this.api().columns().every(function () {
                         var column = this;
@@ -972,6 +977,9 @@
             // } );
 
 
+        });
+        $(document).on('shown.bs.modal', function (e) {
+              $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
         });
     </script>
     <style>

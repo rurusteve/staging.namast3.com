@@ -75,12 +75,13 @@ class TimeReportController extends Controller
         } elseif (Auth::user()->logintype === 'professionaltax') {
             $tasks = MasterTask::where('division', 'tax');
         } elseif (Auth::user()->logintype === 'nonprofessional') {
-            $tasks = MasterTask::where('division', 'adm');
+            $tasks = MasterTask::where('division', 'adm')->where('group_id', $employee->divisi);
         }
-
+        
+        
         $statuses = Statuses::where('nip', Auth::user()->nip);
 
-        $tasks = $tasks->where('activities', 1)->get();
+        $tasks = $tasks->get();
 
         return view('inputtimereport', ['tasks' => $tasks, 'employee' => $employee, 'statuses' => $statuses])
             ->with('id', $id)
@@ -1124,7 +1125,8 @@ class TimeReportController extends Controller
                 $request->regular = 0;
                 break;
         }
-
+        
+        $request->is_business_trip = $request->isBusinessTrip;
 
         if ($getdatedata === null) {
             if ($request->overtime == 0 || $request->overtime == null) {
@@ -1278,17 +1280,17 @@ class TimeReportController extends Controller
         $start_period = getStartPeriod($date->format('m'));
         $end_period = getEndPeriod($date->format('m'));
 
-        if ($date < $start_period_this_month) {
-            $status = isReportLocked(Auth::user()->nip, $date->format('m'));
-            if ($status) {
-                return redirect('/input/timereport')->with('fail-alert', 'Sudah tidak bisa memasukkan laporan dari periode sebelumnya, harap hubungi HRD apabila terjadi kesalahan input');
-            }
-        }
+        // if ($date < $start_period_this_month) {
+        //     $status = isReportLocked(Auth::user()->nip, $date->format('m'));
+        //     if ($status) {
+        //         return redirect('/input/timereport')->with('fail-alert', 'Sudah tidak bisa memasukkan laporan dari periode sebelumnya, harap hubungi HRD apabila terjadi kesalahan input');
+        //     }
+        // }
 
-        // Restrict user to input date greater than the day
-        if (($date > $end_period_this_month)) {
-            return redirect('/input/timereport')->with('fail-alert', 'Tidak diperbolehkan memasukkan laporan diatas tanggal periode ' . $now->format('F'));
-        }
+        // // Restrict user to input date greater than the day
+        // if (($date > $end_period_this_month)) {
+        //     return redirect('/input/timereport')->with('fail-alert', 'Tidak diperbolehkan memasukkan laporan diatas tanggal periode ' . $now->format('F'));
+        // }
 
         $thedate = DB::table('mastertimereporthead')->where('report_date', '=', Carbon::parse($request->date))
             ->where('user_nip', '=', Auth::user()->nip)->first();
@@ -1388,13 +1390,14 @@ class TimeReportController extends Controller
         $timereports->ineffectivehours = $request->inputoverbudget;
         $timereports->ineffectiverules = $ineffectiverules;
         $timereports->overtimes = $overtime;
+        $timereports->is_business_trip = $request->isBusinessTrip;
         $timereports->lampiran = $request->lampiran;
         $timereports->latitude = $request->latitude;
         $timereports->longitude = $request->longitude;
         $timereports->ip = $request->ip;
 
         $timereports->task = $tasks->id;
-        $timereports->activities = $tasks->activities;
+        // $timereports->activities = $tasks->activities;
         $timereports->nip = Auth::user()->nip;
         $timereports->editineffective = 0;
 
@@ -1537,7 +1540,7 @@ class TimeReportController extends Controller
         $timereports = DB::table('mastertimereports')->where('period', '=', '1')->get();
         $sumNMH = DB::table('mastertimereports')
             ->where('nip', '=', $id)
-            ->where('activities', '=', 1)
+            // ->where('activities', '=', 1)
             ->select(DB::raw('sum((normalhours)) as tnh'))
             ->get()->implode('tnh');
         if ($sumNMH == null) {
@@ -1545,7 +1548,7 @@ class TimeReportController extends Controller
         }
         $sumOVT = DB::table('mastertimereports')
             ->where('nip', '=', $id)
-            ->where('activities', '=', 1)
+            // ->where('activities', '=', 1)
             ->select(DB::raw('sum((overtimes)) as ovt'))
             ->get()->implode('ovt');
         if ($sumOVT == null) {
@@ -1553,7 +1556,7 @@ class TimeReportController extends Controller
         }
         $sumIEH = DB::table('mastertimereports')
             ->where('nip', '=', $id)
-            ->where('activities', '=', 1)
+            // ->where('activities', '=', 1)
             ->select(DB::raw('sum((ineffectivehours)) as ieh'))
             ->get()->implode('ieh');
         if ($sumIEH == null) {
@@ -1570,7 +1573,7 @@ class TimeReportController extends Controller
         }
         $sumactprfs = DB::table('mastertimereports')
             ->where('nip', '=', $id)
-            ->where('activities', '=', 1)
+            // ->where('activities', '=', 1)
             ->select(array(
                 'clientid', DB::raw('sum(normalhours) as totalnormalhours'),
                 'clientid', DB::raw('sum(overtimes) as totalovertimes'),
@@ -1585,7 +1588,7 @@ class TimeReportController extends Controller
         }
         $sumactprftotals = DB::table('mastertimereports')
             ->where('nip', '=', $id)
-            ->where('activities', '=', 1)
+            // ->where('activities', '=', 1)
             ->select(DB::raw('sum((normalhours + overtimes - ineffectivehours)) as total'))
             ->get()->implode('total', ', ');
         if ($sumactprftotals == null) {
@@ -1593,7 +1596,7 @@ class TimeReportController extends Controller
         }
         $sumactadms = DB::table('mastertimereports')
             ->where('nip', '=', $id)
-            ->where('activities', '=', 2)
+            // ->where('activities', '=', 2)
             ->select(array(
                 'clientid', DB::raw('sum(normalhours) as totalnormalhours'),
                 'clientid', DB::raw('sum(overtimes) as totalovertimes'),
@@ -1608,7 +1611,7 @@ class TimeReportController extends Controller
         }
         $sumactadmtotals = DB::table('mastertimereports')
             ->where('nip', '=', $id)
-            ->where('activities', '=', 2)
+            // ->where('activities', '=', 2)
             ->select(DB::raw('sum((normalhours + overtimes - ineffectivehours)) as total'))
             ->get()->implode('total', ', ');
         if ($sumactadmtotals == null) {
@@ -1616,7 +1619,7 @@ class TimeReportController extends Controller
         }
         $sumNMHadm = DB::table('mastertimereports')
             ->where('nip', '=', $id)
-            ->where('activities', '=', 2)
+            // ->where('activities', '=', 2)
             ->select(DB::raw('sum((normalhours)) as tnh'))
             ->get()->implode('tnh');
         if ($sumNMHadm == null) {
@@ -1624,7 +1627,7 @@ class TimeReportController extends Controller
         }
         $sumOVTadm = DB::table('mastertimereports')
             ->where('nip', '=', $id)
-            ->where('activities', '=', 2)
+            // ->where('activities', '=', 2)
             ->select(DB::raw('sum((overtimes)) as ovt'))
             ->get()->implode('ovt');
         if ($sumOVTadm == null) {
@@ -1632,7 +1635,7 @@ class TimeReportController extends Controller
         }
         $sumIEHadm = DB::table('mastertimereports')
             ->where('nip', '=', $id)
-            ->where('activities', '=', 2)
+            // ->where('activities', '=', 2)
             ->select(DB::raw('sum((ineffectivehours)) as ieh'))
             ->get()->implode('ieh');
         if ($sumIEHadm == null) {

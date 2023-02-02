@@ -255,22 +255,11 @@
 
                                     <select class="form-control" name="divisi" value="{{ old('divisi') }}" required>
                                         <option value="" selected disabled>Choose Division</option>
+                                        
                                         <option value="" disabled>Professional</option>
-                                        <option value="ACC">Accounting</option>
-                                        <option value="TAX">Tax</option>
-                                        <option value="AUD1">Audit 1</option>
-                                        <option value="AUD2">Audit 2</option>
-                                        <option value="AUD3">Audit 3</option>
-                                        <option value="AUD4">Audit 4</option>
-                                        <option value="AUD5">Audit 5</option<option value="AUD5">Audit 6</option>
-                                        <option value="AUD5">Audit 7</option>
-                                        <option value="AUD5">Audit 8</option>
-                                        <option value="" disabled>Admin</option>
-                                        <option value="HRD">HRD</option>
-                                        <option value="FINANCE">Finance</option>
-                                        <option value="IT">IT</option>
-                                        <option value="SEKRETARIS">Sekretaris</option>
-                                        <option value="GA">GA</option>
+                                        @foreach ($groups as $group)
+                                            <option value="{{$group->id}}">{{$group->name}}</option>
+                                        @endforeach
                                     </select>
 
                                     @if ($errors->has('divisi'))

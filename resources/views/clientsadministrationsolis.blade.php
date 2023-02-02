@@ -68,13 +68,13 @@
                             <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Name</th>
+                                <th>Code</th>
                                 <th>Type</th>
                                 <th>Start Period</th>
                                 <th>End Period</th>
-                                <th>Code</th>
                                 <th>Location</th>
-                                <th>Opt.</th>
+                                <th>Name</th>
+                                <!--<th>Opt.</th>-->
 
                             </tr>
 
@@ -82,8 +82,9 @@
                             <tbody>
                             <div style="display: none">{{ $index = 0 }}</div>
                             @foreach($clients as $index => $client)
-                                <tr>
+                                <tr class='clickable-row' data-href={{ url('/administration/timereport/'.$client->id.'/detail') }}>
                                     <td>{{ $index + 1 }}</td>
+                                    <td>{{ $client -> clientcode }}</td>
                                     <td>{{ $client -> clientname }}</td>
                                     <td>{{ $client -> engagementtype }}</td>
                                     @if($client -> engagementperiodstart == '0000-00-00' || $client -> engagementperiodstart == '0001-01-01')
@@ -92,35 +93,29 @@
                                         <td>{{ date('d M Y', strtotime($client -> engagementperiodstart))  }}</td>
                                     @endif
                                     <td>{{ date('d M Y', strtotime($client -> engagementperiod))  }}</td>
-                                    <td>{{ $client -> clientcode }}</td>
                                     <td>{{ $client -> location }}</td>
-                                    <td>
+                                    <!--<td>-->
 
-                                        <a href="{{ url('/administration/timereport/'.$client->id.'/deleteclient') }}">
-                                            <button onclick="return confirm('Are you sure?')"
-                                                    class='btn btn-xs btn-danger'
-                                                    style="padding: 15px; border-radius: 5px"
-                                                    type='submit'
-                                                    data-toggle="tooltip" data-placement="top"
-                                                    title="Batalkan permintaan cuti"
-                                                    data-target="#confirmDelete" data-title="Delete User"
-                                                    data-message='Are you sure you want to delete this user ?'>
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </a>
-                                        <a href="{{ url('/administration/timereport/'.$client->id.'/detail') }}">
-                                            <button class='btn btn-xs btn-info'
-                                                    style="padding: 15px; border-radius: 5px"
-                                                    type='submit' data-toggle="modal"
-                                                    data-toggle="tooltip" data-placement="top"
-                                                    title="Lihat detail ajuan cuti"
-                                                    data-target="#confirmDelete" data-title="Delete User"
-                                                    data-message='Are you sure you want to delete this user ?'>
-                                                <i class="fas fa-search-plus"></i>
-                                            </button>
-                                        </a>
+                                    <!--    <a href="{{ url('/administration/timereport/'.$client->id.'/deleteclient') }}">-->
+                                    <!--        <button onclick="return confirm('Are you sure?')"-->
+                                    <!--                class='btn btn-xs btn-danger'-->
+                                    <!--                type='submit'-->
+                                    <!--                data-toggle="tooltip" data-placement="top"-->
+                                    <!--                title="Delete client"-->
+                                    <!--                data-target="#confirmDelete" data-title="Delete Client"-->
+                                    <!--                data-message='Are you sure you want to delete this client ?'>-->
+                                    <!--            <i class="fas fa-trash-alt"></i>-->
+                                    <!--        </button>-->
+                                    <!--    </a>-->
+                                    <!--    <a href="{{ url('/administration/timereport/'.$client->id.'/detail') }}">-->
+                                    <!--        <button class='btn btn-xs btn-info'-->
+                                    <!--                type='submit' data-toggle="modal"-->
+                                    <!--                data-toggle="tooltip" data-placement="top"-->
+                                    <!--            <i class="fas fa-search-plus"></i>-->
+                                    <!--        </button>-->
+                                    <!--    </a>-->
 
-                                    </td>
+                                    <!--</td>-->
 
 
                                 </tr>
@@ -128,14 +123,14 @@
                             </tbody>
                             <tfoot>
                             <tr>
-                                <th>No</th>
+                                <th>No.</th>
                                 <th>Code</th>
-                                <th>Period</th>
-                                <th>Period</th>
                                 <th>Type</th>
-                                <th>Name</th>
+                                <th>Start Period</th>
+                                <th>End Period</th>
                                 <th>Location</th>
-                                <th>Opt</th>
+                                <th>Name</th>
+                                <!--<th>Opt.</th>-->
                             </tr>
                             </tfoot>
                         </table>
@@ -245,6 +240,18 @@
             // } );
 
 
+        });
+    </script>
+    <style>
+        .clickable-row:hover{
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        jQuery(document).ready(function($) {
+            $(".clickable-row").click(function() {
+                window.location = $(this).data("href");
+            });
         });
     </script>
 @endsection

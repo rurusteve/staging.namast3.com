@@ -115,7 +115,7 @@
                                     </option>
 
                                     @foreach($tasks as $task)
-                                    <option value="{{$task->id}}">{{ucwords(strtolower($task->taskname))}}</option>
+                                    <option value="{{$task->id}}">{{ucwords($task->taskname)}}</option>
 
                                     @endforeach
 
@@ -191,6 +191,30 @@
                                 <label class="form-check-label">
                                     <input onclick="setOvertimeLimit()" class="form-check-input" type="radio" name="timeType" id="timeTypeOvertime" value="OVERTIME_HOUR">
                                     Overtime Hour
+                                    <span class="circle">
+                                        <span class="check"></span>
+                                    </span>
+                                </label>
+                            </div>
+                            @else
+                            @endif
+                        </div>
+                        <label>Type</label>
+                        <div class="form-row">
+                        <div class="form-check form-check-radio">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="isBusinessTrip" id="isNotBusiness" value="FALSE" checked>
+                                    Non-business Trip
+                                    <span class="circle">
+                                        <span class="check"></span>
+                                    </span>
+                                </label>
+                            </div>
+                            @if($employee->grup !== 'ADMINISTRATION')
+                            <div class="form-check form-check-radio">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="isBusinessTrip" id="isBusiness" value="TRUE">
+                                    Business Trip
                                     <span class="circle">
                                         <span class="check"></span>
                                     </span>

@@ -27,7 +27,7 @@
                                 <th>No</th>
                                 <th>Task Name</th>
                                 <th>Division</th>
-                                <th>Activity</th>
+                                <th>Group</th>
                                 <th>Option</th>
                             </tr>
 
@@ -39,11 +39,9 @@
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ ucwords(strtolower($task -> taskname)) }}</td>
                                     <td>{{ ucwords($task->division) }}</td>
-                                    @if($task->activities == 1)
-                                        <td> Professional Activity</td>
-                                    @elseif($task->activities == 2)
-                                        <td> Administration Activities and UN</td>
-                                    @endif
+                                    <td>
+                                        {{$task->name}}
+                                    </td>
                                     <td>
 
                                         <a href="{{ url('/administration/timereport/'.$task->id.'/deletetask') }}">

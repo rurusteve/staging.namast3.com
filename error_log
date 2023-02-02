@@ -1,3 +1,4 @@
 [27-Feb-2019 16:47:26 UTC] PHP Warning:  require(/home/namastco/my.namast3.com/public/../vendor/autoload.php): failed to open stream: No such file or directory in /home/namastco/my.namast3.com/public/index.php on line 24
 [27-Feb-2019 16:47:26 UTC] PHP Warning:  require(/home/namastco/my.namast3.com/public/../vendor/autoload.php): failed to open stream: No such file or directory in /home/namastco/my.namast3.com/public/index.php on line 24
 [27-Feb-2019 16:47:26 UTC] PHP Fatal error:  require(): Failed opening required '/home/namastco/my.namast3.com/public/../vendor/autoload.php' (include_path='.:/opt/alt/php72/usr/share/pear') in /home/namastco/my.namast3.com/public/index.php on line 24
+[01-Nov-2022 16:05:35 Asia/Jakarta] PHP Fatal error:  Cannot use App\Division as Division because the name is already in use in /home/namastco/staging.namast3.com/app/Http/Controllers/AdministratorController.php on line 14

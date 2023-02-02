@@ -104,7 +104,7 @@ class IndTimeReportExport implements FromCollection, WithHeadings, WithEvents, S
                 $type = 'OVERTIME_HOUR';
             }
 
-            $client = MasterClient::find($timereport->clientid)->first();
+            $client = MasterClient::where('id', $timereport->clientid)->first();
             $selectedData = [
                 'nip'           => $timereport->nip,
                 'date'          => $date->format('m/d/Y'),
