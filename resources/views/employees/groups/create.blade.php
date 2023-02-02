@@ -40,7 +40,7 @@
                                 <div class="col-md-6">
                                     <input id="code" type="text"
                                            class="form-control{{ $errors->has('code') ? ' is-invalid' : '' }}"
-                                           code="code" value="{{ old('code') }}" required autofocus>
+                                           name="code" value="{{ old('code') }}" required autofocus>
 
                                     @if ($errors->has('code'))
                                         <span class="invalid-feedback" role="alert">
