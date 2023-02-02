@@ -51,7 +51,7 @@
                     <div class="card-body">
 
                         <form method="POST"
-                              action="{{ \Illuminate\Support\Facades\URL::to('/user/payrollandlogin/add') }}">
+                              action="{{ \Illuminate\Support\Facades\URL::to('/user/registration/add') }}">
                             {{ csrf_field() }}
 
                             <h5>Main Data</h5>

@@ -531,7 +531,7 @@ class PayrollController extends Controller
         ]);
 
         if (MasterEmployee::where('nip', '=', $request->nip)->exists()) {
-            return redirect('/user/payrollandlogin/form')->with('alert', 'Data with NIP: ' . $request->nip . ' is existed already');
+            return redirect('/user/registration/form')->with('alert', 'Data with NIP: ' . $request->nip . ' is existed already');
         }
 
         $employee = new MasterEmployee();

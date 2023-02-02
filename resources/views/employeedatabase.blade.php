@@ -251,7 +251,7 @@
 
 
                             <td>
-                                <a href="{{ url('/user/payrollandlogin/form') }}">
+                                <a href="{{ url('/user/registration/form') }}">
                                     <button type="button" class="btn btn-primary">+ Add New Employee</button>
                                 </a>
                                 {{--<a href="{{ url('/importemployee') }}">--}}

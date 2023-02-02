@@ -468,8 +468,8 @@ Route::post('/insertpayroll/inserting', array('as' => 'form', 'uses' => 'Payroll
 
 Route::get('/user/biodata/form', 'DatabaseController@create');
 Route::post('/user/biodata/add', array('as' => 'form', 'uses' => 'DatabaseController@input'));
-Route::get('/user/payrollandlogin/form', 'PayrollController@create');
-Route::post('/user/payrollandlogin/add', array('as' => 'form', 'uses' => 'PayrollController@input'));
+Route::get('/user/registration/form', 'PayrollController@create');
+Route::post('/user/registration/add', array('as' => 'form', 'uses' => 'PayrollController@input'));
 
 Route::get('/importemployee', 'ImportController@getImport')->name('import');
 Route::post('/import_parse', 'ImportController@parseImport')->name('import_parse');

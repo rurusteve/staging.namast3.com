@@ -167,7 +167,7 @@
                 <div class="card-body">
                     <div class="filterlist">
                         <a class="filterlink" href="{{ url('/payroll/data') }}">Main Data</a><br>
-                        {{--<a class="filterlink" href="{{ url('/user/payrollandlogin/form') }}">Add--}}
+                        {{--<a class="filterlink" href="{{ url('/user/registration/form') }}">Add--}}
                             {{--Employee</a><br>--}}
                         {{--<a class="filterlink" href="{{ url('/user/biodata/form') }}">Add Biodata</a><br>--}}
                         <a class="filterlink" href="{{ url('/biodata/home') }}">Biodata</a><br>

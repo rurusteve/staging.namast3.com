@@ -15,7 +15,7 @@
                             </div>
                         @endif
                         Data added successfully!<br>
-                            <a href="/user/payrollandlogin/form"><button type="button" class="btn btn-primary">Insert another employee</button></a>
+                            <a href="/user/registration/form"><button type="button" class="btn btn-primary">Insert another employee</button></a>
                             <a href="/payroll/data"><button type="button" class="btn btn-primary">User list</button></a>
                     </div>
                 </div>
