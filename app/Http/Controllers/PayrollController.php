@@ -489,7 +489,8 @@ class PayrollController extends Controller
 
     public function create()
     {
-        return view('hrd.payroll.inputemployee');
+        $groups = Group::all();
+        return view('hrd.payroll.inputemployee', compact('groups'));
     }
 
     /**

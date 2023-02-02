@@ -6,6 +6,7 @@ use App\MasterClient;
 use App\MasterManualInput;
 use App\MasterTask;
 use App\LeaveRequest;
+use App\Group;
 use App\User;
 use App\MasterEmployee;
 use App\DeletedLeaveRequest;
@@ -27,7 +28,7 @@ class AdministratorController extends Controller
         return view('clientsadministrationsolis', ['clients' => $clients]);
     }
     public function indextasks(){
-        $tasks = DB::table('mastertasks')->orderBy('activities', 'asc')->get();
+        $tasks = DB::table('mastertasks')->leftJoin('groups', 'mastertasks.group_id', '=', 'groups.id')->orderBy('activities', 'asc')->get();
         return view('tasksadministration', ['tasks' => $tasks]);
     }
     public function indexdivisions(){
@@ -35,10 +36,12 @@ class AdministratorController extends Controller
         return view('divisions', ['divisions' => $divisions]);
     }
     public function createclients(){
-        return view('inputclient');
+        $groups = Group::all();
+        return view('inputclient', compact('groups'));
     }
     public function createtasks(){
-        return view('inputtask');
+        $groups = Group::all();
+        return view('inputtask', compact('groups'));
     }
     public function createdivisions(){
         return view('inputdivision');
@@ -66,7 +69,8 @@ class AdministratorController extends Controller
         $clients->institusi = $request->institusi;
         $clients->branch = $request->branch;
         $clients->keterangan = $request->keterangan;
-
+        $clients->group_id = collect($request->groups)->implode(',');
+        
         $clients->save();
         return redirect()->back();
     }
@@ -74,12 +78,13 @@ class AdministratorController extends Controller
         $tasks = new MasterTask();
         $this->validate($request,[
             'taskname' => '',
-            'activities' => ''
         ]);
 
         $tasks->taskname = $request->taskname;
         $tasks->division = $request->division;
-        $tasks->activities = $request->activities;
+        // $tasks->activities = $request->activities;
+        $tasks->group_id = $request->group;
+
 
         $tasks->save();
         return redirect()->back();
@@ -109,28 +114,20 @@ class AdministratorController extends Controller
         return redirect('/administration/timereport/clients/msid');
     }
     public function clientdetail($id) {
-        $clients = MasterClient::where('id', $id)->first();
-        return view('clientdetail', ['clients' => $clients]);
+        $clients = MasterClient::where('masterclients.id', $id)->leftJoin('groups','groups.id','=','masterclients.group_id')->select('*','masterclients.id as id')->first();
+        $client_groups = array_map('intval', explode(',', $clients->group_id));
+        $groups = Group::all();
+        return view('clientdetail', ['clients' => $clients, 'client_groups' => $client_groups, 'groups' => $groups]);
     }
     public function editclient($id) {
         $clients = MasterClient::where('id', $id)->first();
-        return view('editclient', ['clients' => $clients]);
+        $client_groups = array_map('intval', explode(',', $clients->group_id));
+        $groups = Group::all();
+        return view('editclient', ['clients' => $clients, 'groups' => $groups, 'client_groups' => $client_groups]);
     }
     public function updateclient(Request $request,$id) {
         $clients = MasterClient::where('id', $id)->first();
 
-        $this->validate($request,[
-            'clientname' => '',
-            'clientcode' => '',
-            'engagementdate' => '',
-            'engagementperiod' => '',
-            'engagementperiodstart' => '',
-            'location' => '',
-            'fee' => '',
-            'keterangan' => '',
-            'institusi' => '',
-            'feenonrupiah'
-        ]);
         $clients->clientname = $request->clientname;
         $clients->clientcode = $request->clientcode;
         $clients->engagementtype = $request->engagementtype;
@@ -142,6 +139,7 @@ class AdministratorController extends Controller
         $clients->keterangan = $request->keterangan;
         $clients->institusi = $request->institusi;
         $clients->branch = $request->branch;
+        $clients->group_id = collect($request->groups)->implode(',');
 
         $clients->save();
         return redirect('/administration/timereport/'.$id.'/detail');

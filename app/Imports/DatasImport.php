@@ -23,11 +23,15 @@ class DatasImport implements ToModel, WithHeadingRow, WithValidation
         $arrayInput = [];
         $payrollInput = new MasterPayrollInput();
         foreach ($payrollInput->getFillable() as $field) {
+            if($field == 'nip'){
+                if (MasterPayrollInput::where('nip', $row[$field])->exists()) {
+                    continue;
+                }
+            }
             if (array_key_exists($field, $row)) {
                 $arrayInput[$field] = $row[$field];
             }
         }
-
         return new MasterPayrollInput($arrayInput);
     }
 
