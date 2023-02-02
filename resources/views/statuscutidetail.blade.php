@@ -147,7 +147,7 @@
                             {{--Dear {{ Auth::user()->name }}, sisa cuti anda tersisa  {{ $availableleavethree }}--}}
                             {{--</div>--}}
 
-                            <a href="{{ url('/input/cuti/home') }}">
+                            <a href="{{ url('cuti/home') }}">
                                 <button type="button" class="btn btn-outline-primary"><i
                                             class="fas fa-caret-square-left"></i> Back
                                 </button>

@@ -486,7 +486,7 @@ class TimeReportController extends Controller
     {
         $leaverequest = LeaveRequest::where('id', $id)->first();
         $leaverequest->delete();
-        return redirect('/input/cuti/home');
+        return redirect('cuti/home');
     }
 
     public function detailstatuscuti($id)

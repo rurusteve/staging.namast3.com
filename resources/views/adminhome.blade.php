@@ -1050,7 +1050,7 @@
 
                                                         </tbody>
                                                     </table>
-                                                    <a href="{{ url('/input/cuti/home') }}">
+                                                    <a href="{{ url('cuti/home') }}">
                                                         <button type="button" class="btn btn-primary"><i
                                                                     class="fas fa-calendar-day"></i> Detail &
                                                             Pengajuan
@@ -1326,7 +1326,7 @@
 
                                                             </tbody>
                                                         </table>
-                                                        <a href="{{ url('/input/cuti/home') }}">
+                                                        <a href="{{ url('cuti/home') }}">
                                                             <button type="button" class="btn btn-primary"><i
                                                                         class="fas fa-calendar-day"></i> Detail &
                                                                 Pengajuan

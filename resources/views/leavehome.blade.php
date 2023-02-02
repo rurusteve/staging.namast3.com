@@ -92,9 +92,9 @@
                                 <p class="card-category">Detail daftar cuti yang diajukan</p>
                             </div>
                             <div class="card-header">
-                                <a style="float: left;" href="/input/cuti/home"><i
+                                <a style="float: left;" href="cuti/home"><i
                                             class="fas fa-arrow-circle-left"></i> Status Cuti</a>
-                                <a style="float: right" href="/input/cuti/pengajuancuti">Pengajuan Cuti <i
+                                <a style="float: right" href="cuti/pengajuancuti">Pengajuan Cuti <i
                                             class="fas fa-arrow-circle-right"></i></a>
                             </div>
                             @if (session('alert'))
@@ -152,7 +152,7 @@
                                                 </td>
                                                 <td>
                                                     @if($leaverequest -> statuscuti == 'approved' || $leaverequest -> statuscuti == 'declined')
-                                                        <a href="{{ url('/input/cuti/home/'.$leaverequest->id.'/detail') }}">
+                                                        <a href="{{ url('cuti/home/'.$leaverequest->id.'/detail') }}">
                                                             <button class='btn btn-xs btn-outline-primary'
                                                                     style="border-radius: 50%"
                                                                     type='submit'
@@ -161,7 +161,7 @@
                                                             </button>
                                                         </a>
                                                     @else
-                                                        <a href="{{ url('/input/cuti/home/'.$leaverequest->id.'/delete') }}">
+                                                        <a href="{{ url('cuti/home/'.$leaverequest->id.'/delete') }}">
                                                             <button onclick="return confirm('Are you sure?')"
                                                                     class='btn btn-xs btn-outline-danger'
                                                                     style="border-radius: 50%"
@@ -174,7 +174,7 @@
                                                                 <i class="fas fa-trash-alt"></i>
                                                             </button>
                                                         </a>
-                                                        <a href="{{ url('/input/cuti/home/'.$leaverequest->id.'/detail') }}">
+                                                        <a href="{{ url('cuti/home/'.$leaverequest->id.'/detail') }}">
                                                             <button class='btn btn-xs btn-outline-primary'
                                                                     style="border-radius: 50%"
                                                                     type='submit' data-toggle="modal"

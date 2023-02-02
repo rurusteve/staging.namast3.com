@@ -82,6 +82,17 @@ Route::prefix('administration')->name('administration.')->group(function () {
         Route::get('{id}/deletedivision', 'AdministratorController@deletedivision')->middleware('auth');
     });
 });
+
+Route::prefix('cuti')->name('cuti.')->group(function () {
+    
+   Route::get('home', 'TimeReportController@cuti')->name('cutihome')->middleware('auth');
+   Route::get('pengajuancuti', 'TimeReportController@createleave')->name('pengajuancuti')->middleware('auth');
+   Route::post('pengajuancuti/process', 'TimeReportController@requestleave')->middleware('auth');
+   Route::get('home/{id}/delete', 'TimeReportController@deleterequest')->middleware('auth');
+   Route::get('home/{id}/detail', 'TimeReportController@detailstatuscuti')->middleware('auth');
+
+});
+
 // Route::get('/time-report/bulk-edit', 'TimeReportController@indexBulk');
 // Route::get('/timereport/bulk/edit/{period}', 'TimeReportController@exportEditTemplate')->name('bulkedit');
 
@@ -151,11 +162,6 @@ Route::get('/timereportlist', 'TimeReportController@index')->middleware('auth');
 Route::get('/input', function () {
     return view('inputuser');
 });
-Route::get('/input/cuti/home', 'TimeReportController@cuti')->name('cutihome')->middleware('auth');
-Route::get('/input/cuti/pengajuancuti', 'TimeReportController@createleave')->name('pengajuancuti')->middleware('auth');
-Route::post('/input/cuti/pengajuancuti/process', 'TimeReportController@requestleave')->middleware('auth');
-Route::get('/input/cuti/home/{id}/delete', 'TimeReportController@deleterequest')->middleware('auth');
-Route::get('/input/cuti/home/{id}/detail', 'TimeReportController@detailstatuscuti')->middleware('auth');
 //Route::get('/laravel/storage/app/{file}', 'TimeReportController@showfile')->middleware('auth');
 
 Route::get('/input/timereport', 'TimeReportController@create')->name('inputtimereport')->middleware('auth');

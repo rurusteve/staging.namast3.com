@@ -8,7 +8,7 @@
 
 
         @if(Auth::user()->admin == 0 || Auth::user()->admin == 1)
-        <li class="nav-item "><a class="nav-link" href="{{ url('/input/cuti/home') }}"><i
+        <li class="nav-item "><a class="nav-link" href="{{ url('cuti/home') }}"><i
                         class="fas fa-location-arrow"></i>
                 <p> Cuti</p></a></li>
         {{-- @if(Auth::user()->logintype !== 'nonprofessional' ) --}}
@@ -24,7 +24,7 @@
 
         @elseif(Auth::user()->admin == 2)
         @if(Auth::user()->division == 'HRD')
-        <li class="nav-item "><a class="nav-link" href="{{ url('/input/cuti/home') }}"><i
+        <li class="nav-item "><a class="nav-link" href="{{ url('cuti/home') }}"><i
                         class="fas fa-location-arrow"></i>
                 <p> Cuti</p></a></li>
         @else

@@ -183,7 +183,7 @@
                                     {{--@endif--}}
 
 
-                                    {{--<a class="dropdown-item" href="{{ url('/input/cuti/home') }}"><i--}}
+                                    {{--<a class="dropdown-item" href="{{ url('cuti/home') }}"><i--}}
                                                 {{--class="fas fa-location-arrow"></i> Cuti</a>--}}
 
                                 {{--@elseif(Auth::user()->admin == 2)--}}

@@ -257,14 +257,14 @@
                                 <p class="card-category">Formulir pengajuan cuti</p>
                             </div>
                             <div class="card-header">
-                                <a style="float: left;" href="/input/cuti/home"><i class="fas fa-arrow-circle-left"></i>
+                                <a style="float: left;" href="cuti/home"><i class="fas fa-arrow-circle-left"></i>
                                     Status Cuti</a>
-                                <a style="float: right" href="/input/cuti/pengajuancuti">Pengajuan Cuti <i
+                                <a style="float: right" href="cuti/pengajuancuti">Pengajuan Cuti <i
                                             class="fas fa-arrow-circle-right"></i></a>
                             </div>
                             <div class="card-body">
                                 <form method="POST"
-                                      action="{{ \Illuminate\Support\Facades\URL::to('/input/cuti/pengajuancuti/process') }}"
+                                      action="{{ \Illuminate\Support\Facades\URL::to('cuti/pengajuancuti/process') }}"
                                       enctype="multipart/form-data">
                                     {{ csrf_field() }}
                                     {{ method_field('post') }}
@@ -272,7 +272,7 @@
                                     @if (session('alert'))
                                         <br>
                                         <div class="alert alert-danger">
-                                            {{ session('alert') }}, <a href="/input/cuti/home"> kembali</a>
+                                            {{ session('alert') }}, <a href="cuti/home"> kembali</a>
                                         </div>
                                     @endif
                                     <div class="form-row">

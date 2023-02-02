@@ -82,7 +82,7 @@
                     @endif
 
 
-                    <li class="nav-item "><a class="nav-link" href="{{ url('/input/cuti/home') }}"><i
+                    <li class="nav-item "><a class="nav-link" href="{{ url('cuti/home') }}"><i
                                     class="fas fa-location-arrow"></i><p> Cuti</p></a></li>
 
                 @elseif(Auth::user()->admin == 2)
