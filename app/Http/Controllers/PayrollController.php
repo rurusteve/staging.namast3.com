@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\MasterEmployee;
 use App\MasterEmployeeHistory;
+use App\Positions;
 use App\TimeReport;
 use Illuminate\Support\Facades\Hash;
 
@@ -490,7 +491,8 @@ class PayrollController extends Controller
     public function create()
     {
         $groups = Group::all();
-        return view('hrd.payroll.inputemployee', compact('groups'));
+        $positions = Positions::all();
+        return view('hrd.payroll.inputemployee', compact('groups', 'position'));
     }
 
     /**
