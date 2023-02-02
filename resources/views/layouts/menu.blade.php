@@ -177,7 +177,7 @@
                         <a class="filterlink" href="{{ url('/administration/timereport/tasks') }}">Tasks</a><br>
                         <a class="filterlink" href="{{ url('/team/groups') }}">Groups</a><br>
                         <a class="filterlink" href="{{ url('/administration/timereport/divisions') }}">Divisions</a><br>
-                        <a class="filterlink" href="{{ url('/team/delegations') }}">Delegations</a><br>
+                        {{-- <a class="filterlink" href="{{ url('/team/delegations') }}">Delegations</a><br> --}}
                         <a class="filterlink" href="{{ url('/administration/timereport/clients/msid') }}">Clients</a><br>
                     </div>
                 </div>
@@ -271,7 +271,7 @@
                     <div class="filterlist">
                         <a class="filterlink" href="{{ url('/administration/timereport/clients/msid') }}">Clients</a><br>
                         <a class="filterlink" href="{{ url('/teammanagement') }}">Teams</a><br>
-                        <a class="filterlink" href="{{ url('/team/delegations') }}">Delegations</a><br>
+                        {{-- <a class="filterlink" href="{{ url('/team/delegations') }}">Delegations</a><br> --}}
                     </div>
                 </div>
             </div>
