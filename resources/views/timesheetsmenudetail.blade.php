@@ -618,8 +618,8 @@
                                 Click the date to view the detail of each row.
                             </i>
                         </p>
-                        <table style="display: inline-table; width: 100%; overflow-x: auto;font-size: 14px;"
-                               class="table responsive table-striped display"
+                        <table style="display: block; width: 100%; overflow-x: auto;font-size: 12px;"
+                               class="table table-responsive-md table-striped display"
                                id="example">
                             <thead>
                             <tr>
@@ -945,19 +945,7 @@
         $(document).ready(function () {
             $('#example').DataTable({
                 "aaSorting": [],
-                responsive: {
-                    details: {
-                        display: $.fn.dataTable.Responsive.display.modal({
-                            header: function (row) {
-                                var data = row.data();
-                                return 'Details for ' + data[2] + ' on ' + data[0];
-                            }
-                        }),
-                        renderer: $.fn.dataTable.Responsive.renderer.tableAll({
-                            tableClass: 'table'
-                        })
-                    }
-                },
+                responsive: true,
                 
                 initComplete: function () {
                     this.api().columns().every(function () {
@@ -986,9 +974,6 @@
             // } );
 
 
-        });
-        $(document).on('shown.bs.modal', function (e) {
-              $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
         });
     </script>
     <style>
