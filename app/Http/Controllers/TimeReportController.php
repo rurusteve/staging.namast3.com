@@ -412,8 +412,6 @@ class TimeReportController extends Controller
         $getuserdata = MasterEmployee::where('nip', '=', $usernip)->first();
         $inchargestatus = $getuserdata->inchargestatus;
 
-        dd($olddata);
-
         if ($inchargestatus && ($olddata->approved_by_hr || $olddata->approved_by_partner)) {
             return;
         }
