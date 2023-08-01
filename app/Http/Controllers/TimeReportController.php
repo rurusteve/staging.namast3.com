@@ -413,11 +413,11 @@ class TimeReportController extends Controller
         $inchargestatus = $getuserdata->inchargestatus;
 
         if ($inchargestatus && ($olddata->approved_by_hr || $olddata->approved_by_partner)) {
-            return;
+            return redirect('/timesheets/detail');
         }
         
         if (!$inchargestatus && ($olddata->approved_by_incharge || $olddata->approved_by_hr || $olddata->approved_by_partner)) {
-            return;
+            return redirect('/timesheets/detail');
         }
         
         $timereports = new DeletedTimeReport();
