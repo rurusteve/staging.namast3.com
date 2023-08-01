@@ -236,8 +236,7 @@ class TimeReportController extends Controller
             ->get();
 
         if ($inchargestatus == 0) {
-            $timereports = DB::table('mastertimereports')
-                ->where('nip', '=', $usernip)->orderBy('mastertimereports.date', 'desc')
+            $timereports = TimeReport::where('nip', '=', $usernip)->orderBy('mastertimereports.date', 'desc')
                 ->select(
                     'mastertimereports.*',
                     DB::raw('(ineffectiverules + editineffective) as ineffective')
@@ -248,8 +247,7 @@ class TimeReportController extends Controller
             }
             $timereports = $timereports->get();
         } elseif ($inchargestatus == 1) {
-            $timereports = DB::table('mastertimereports')
-                ->join('masteremployee', 'mastertimereports.nip', '=', 'masteremployee.nip')
+            $timereports = TimeReport::join('masteremployee', 'mastertimereports.nip', '=', 'masteremployee.nip')
                 ->where('masteremployee.divisi', '=', $divisi)->orderBy('mastertimereports.date', 'desc')
                 ->select(
                     'masteremployee.*',
