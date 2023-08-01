@@ -412,16 +412,14 @@ class TimeReportController extends Controller
         $getuserdata = MasterEmployee::where('nip', '=', $usernip)->first();
         $inchargestatus = $getuserdata->inchargestatus;
 
-        if($inchargestatus){
-            if ($olddata->approved_by_hr == true || $olddata->approved_by_partner){
-                return;
-            }
-        }else{
-            if ($olddata->approved_by_incharge == true || $olddata->approved_by_hr == true || $olddata->approved_by_partner){
-                return;
-            }
+        if ($inchargestatus && ($olddata->approved_by_hr || $olddata->approved_by_partner)) {
+            return;
         }
-
+        
+        if (!$inchargestatus && ($olddata->approved_by_incharge || $olddata->approved_by_hr || $olddata->approved_by_partner)) {
+            return;
+        }
+        
         $timereports = new DeletedTimeReport();
 
         $timereports->date = $olddata->date;
