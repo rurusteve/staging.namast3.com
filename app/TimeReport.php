@@ -46,7 +46,8 @@ class TimeReport extends Model
         'is_business_trip',
         'approved_by_incharge',
         'approved_by_hr',
-        'approved_by_partner'
+        'approved_by_partner',
+        'is_partially_approved'
     ];
 
     public function __construct(array $attributes = [])
