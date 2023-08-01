@@ -476,8 +476,7 @@ class TimeReportController extends Controller
                 }
             }
             $report = TimeReport::where('id', $id)->first();
-            $report->is_deleted = true;
-            $report->save();
+            $report->delete();
         }
 
         return redirect('/timesheets/detail');

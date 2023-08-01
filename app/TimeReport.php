@@ -42,8 +42,7 @@ class TimeReport extends Model
         'period' ,
         'description' ,
         'overtimemeal',
-        'overtimetransportation',
-        'is_deleted'
+        'overtimetransportation'
     ];
 
     public function approveByPeriod($period, $nip)
