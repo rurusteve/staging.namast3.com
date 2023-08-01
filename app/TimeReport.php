@@ -46,25 +46,13 @@ class TimeReport extends Model
         'is_business_trip',
         'approved_by_incharge',
         'approved_by_hr',
-        'approved_by_partner',
-        'is_partially_approved'
+        'approved_by_partner'
     ];
 
-    public function __construct(array $attributes = [])
+    public function getIsPartiallyApprovedAttribute()
     {
-        parent::__construct($attributes);
-        $this->attributes['is_partially_approved'] = $this->calculateApprovalAttribute();
+        return !($this->attributes['approved_by_incharge'] || $this->attributes['approved_by_hr'] || $this->attributes['approved_by_partner']);
     }
-
-    private function calculateApprovalAttribute()
-    {
-        $approved_by_incharge = isset($this->attributes['approved_by_incharge']) ? $this->attributes['approved_by_incharge'] : false;
-        $approved_by_hr = isset($this->attributes['approved_by_hr']) ? $this->attributes['approved_by_hr'] : false;
-        $approved_by_partner = isset($this->attributes['approved_by_partner']) ? $this->attributes['approved_by_partner'] : false;
-
-        return !($approved_by_incharge || $approved_by_hr || $approved_by_partner);
-    }
-
 
     public function approveByPeriod($period, $nip)
     {
