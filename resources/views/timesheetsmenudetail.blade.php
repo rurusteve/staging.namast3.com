@@ -700,7 +700,7 @@
                                     <div>{{$timereport->description}}</div>
                                     </td>
                                     <td>
-                                            <a class='btn btn-xs btn-outline-danger {{ $timereport->approved_by_hr == true || $timereport->approved_by_incharge == true || $timereport->approved_by_partner == true ? 'disabled' : '' }}' onclick="return confirm('Do you want to delete the record?')"
+                                            <a class='btn btn-xs btn-outline-danger {{ $timereport->approved_by_hr == true || $timereport->approved_by_incharge == true || $timereport->approved_by_partner == true ? 'disabled' : 'disabled' }}' onclick="return confirm('Do you want to delete the record?')"
                                                type='submit' data-placement="top"
                                                data-target="#confirmDelete" data-title="Delete User"
                                                data-message='Are you sure you want to delete this user ?' href="{{ url('/timesheets/delete/'.$timereport->id) }}">
