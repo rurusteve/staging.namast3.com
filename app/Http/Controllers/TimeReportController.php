@@ -213,7 +213,7 @@ class TimeReportController extends Controller
         }
     }
 
-    public function timesheetdetail($date = null, $year = null)
+    public function timesheetdetail($date = null)
     {
         $usernip = Auth::user()->nip;
         $masteremployees = DB::table('masteremployee')->where('nip', '=', $usernip)->first();
@@ -243,6 +243,9 @@ class TimeReportController extends Controller
                     DB::raw('(ineffectiverules + editineffective) as ineffective')
                 )
                 ->orderBy('mastertimereports.date', 'desc');
+            if ($date !== null){
+                $timereports = $timereports->whereDate('date', $date);
+            }
             $timereports = $timereports->get();
         } elseif ($inchargestatus == 1) {
             $timereports = DB::table('mastertimereports')
@@ -255,6 +258,9 @@ class TimeReportController extends Controller
                     DB::raw('(ineffectiverules + editineffective) as ineffective')
                 )
                 ->orderBy('mastertimereports.date', 'desc');
+            if ($date !== null){
+                $timereports = $timereports->whereDate('date', $date);
+            }
             $timereports = $timereports->get();
         }
 
