@@ -52,7 +52,7 @@ class TimeReport extends Model
 
     public function getIsPartiallyApprovedAttribute($value)
     {
-        return "Partially"
+        return "Partially";
     }
 
     public function setIsPartiallyApprovedAttribute($value)
