@@ -701,6 +701,7 @@
                                     </td>
                                     <td>
                                             @if($timereport->approved_by_hr == true || $timereport->approved_by_incharge == true || $timereport->approved_by_partner == true)
+                                            @else
                                             <a class='btn btn-xs btn-outline-danger' onclick="return confirm('Do you want to delete the record?')"
                                                type='submit' data-placement="top"
                                                data-target="#confirmDelete" data-title="Delete User"
