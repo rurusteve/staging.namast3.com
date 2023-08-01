@@ -444,7 +444,7 @@
                 <p class="card-category">List for calculated payroll each month</p>
             </div>
             <div class="card-body">
-                <table style=" display: block; width: 100%; overflow-x: auto;font-size: 12px;"
+                <table style="display: block; width: 100%; overflow-x: auto;font-size: 12px;"
                        class="table table-responsive-md table-striped display"
                        id="example">
                     <thead>
