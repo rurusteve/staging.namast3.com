@@ -700,7 +700,6 @@
                                     <div>{{$timereport->description}}</div>
                                     </td>
                                     <td>
-                                            @else
                                             <a class='btn btn-xs btn-outline-danger {{ $timereport->approved_by_hr == true || $timereport->approved_by_incharge == true || $timereport->approved_by_partner == true ? 'disabled' : '' }}' onclick="return confirm('Do you want to delete the record?')"
                                                type='submit' data-placement="top"
                                                data-target="#confirmDelete" data-title="Delete User"
@@ -713,7 +712,6 @@
                                                data-message='Are you sure you want to edit this user ?' href="{{ url('/timesheets/edit/'.$timereport->id) }}">
                                                     <i class="fas fa-trash-alt"></i> Edit
                                             </a>
-                                            @endif
                                         @if($inchargestatus)
                                           <a class='btn btn-xs btn-outline-success' onclick="return confirm('Do you want to approve the record?')"
                                             type='submit' data-placement="top"
