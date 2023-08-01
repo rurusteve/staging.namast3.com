@@ -618,8 +618,8 @@
                                 Click the date to view the detail of each row.
                             </i>
                         </p>
-                        <table style="display: block; width: 100%; overflow-x: auto;font-size: 12px;"
-                               class="table table-responsive-md table-striped display"
+                        <table style="display: inline-table; width: 100%; overflow-x: auto;font-size: 14px;"
+                               class="table responsive table-responsive-lg table-striped display"
                                id="example">
                             <thead>
                             <tr>
@@ -700,9 +700,8 @@
                                     <div>{{$timereport->description}}</div>
                                     </td>
                                     <td>
-                                            @if($timereport->approved_by_hr == true || $timereport->approved_by_incharge == true || $timereport->approved_by_partner == true)
                                             @else
-                                            <a class='btn btn-xs btn-outline-danger' onclick="return confirm('Do you want to delete the record?')"
+                                            <a class='btn btn-xs btn-outline-danger {{ $timereport->approved_by_hr == true || $timereport->approved_by_incharge == true || $timereport->approved_by_partner == true ? 'disabled' : '' }}' onclick="return confirm('Do you want to delete the record?')"
                                                type='submit' data-placement="top"
                                                data-target="#confirmDelete" data-title="Delete User"
                                                data-message='Are you sure you want to delete this user ?' href="{{ url('/timesheets/delete/'.$timereport->id) }}">
@@ -945,13 +944,50 @@
         $(document).ready(function () {
             $('#example').DataTable({
                 "aaSorting": [],
-                responsive: true
+                responsive: {
+                    details: {
+                        display: $.fn.dataTable.Responsive.display.modal({
+                            header: function (row) {
+                                var data = row.data();
+                                return 'Details for ' + data[2] + ' on ' + data[0];
+                            }
+                        }),
+                        renderer: $.fn.dataTable.Responsive.renderer.tableAll({
+                            tableClass: 'table'
+                        })
+                    }
+                },
+                
+                initComplete: function () {
+                    this.api().columns().every(function () {
+                        var column = this;
+                        var select = $('<select><option value=""></option></select>')
+                            .appendTo($(column.footer()).empty())
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+
+                        column.data().unique().sort().each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>')
+                        });
+                    });
+                }
+
             });
             // var table = $('#example').DataTable( {
             //     "scrollY": "200px",
             // } );
 
 
+        });
+        $(document).on('shown.bs.modal', function (e) {
+              $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
         });
     </script>
     <style>
