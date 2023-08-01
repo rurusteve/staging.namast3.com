@@ -406,7 +406,21 @@ class TimeReportController extends Controller
 
     public function deletetimereport($id)
     {
-        $olddata = DB::table('mastertimereports')->where('id', $id)->first();
+        $olddata = TimeReport::find($id);
+
+        $usernip = Auth::user()->nip;
+        $getuserdata = MasterEmployee::where('nip', '=', $usernip)->first();
+        $inchargestatus = $getuserdata->inchargestatus;
+
+        if($inchargestatus){
+            if ($olddata->approved_by_hr == true || $olddata->approved_by_partner){
+                return;
+            }
+        }else{
+            if ($olddata->approved_by_incharge == true || $olddata->approved_by_hr == true || $olddata->approved_by_partner){
+                return;
+            }
+        }
 
         $timereports = new DeletedTimeReport();
 
