@@ -219,8 +219,7 @@ class TimeReportController extends Controller
         $masteremployees = DB::table('masteremployee')->where('nip', '=', $usernip)->first();
         $inchargestatus = $masteremployees->inchargestatus;
         $divisi = $masteremployees->divisi;
-        $downloadtimereports = DB::table('mastertimereports')
-            ->join('mastertimereporthead', 'mastertimereports.timereportheadid', '=', 'mastertimereporthead.id')
+        $downloadtimereports = TimeReport::join('mastertimereporthead', 'mastertimereports.timereportheadid', '=', 'mastertimereporthead.id')
             ->join('mastertasks', 'mastertimereports.task', '=', 'mastertasks.id')
             ->join('masterclients', 'mastertimereports.clientid', '=', 'masterclients.id')
             ->join('masteremployee', 'mastertimereports.nip', '=', 'masteremployee.nip')
