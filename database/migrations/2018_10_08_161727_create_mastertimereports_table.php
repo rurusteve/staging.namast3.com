@@ -40,6 +40,7 @@ class CreateMastertimereportsTable extends Migration
             $table->boolean('approved_by_incharge')->nullable();
             $table->boolean('approved_by_hr')->nullable();
             $table->boolean('approved_by_partner')->nullable();
+            $table->boolean('is_deleted')->default(false);
             $table->timestamps();
         });
     }

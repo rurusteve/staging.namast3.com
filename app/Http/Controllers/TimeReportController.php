@@ -236,6 +236,7 @@ class TimeReportController extends Controller
 
         if ($inchargestatus == 0) {
             $timereports = TimeReport::where('nip', '=', $usernip)->orderBy('mastertimereports.date', 'desc')
+            ->where('is_deleted', false)
                 ->select(
                     'mastertimereports.*',
                     DB::raw('(ineffectiverules + editineffective) as ineffective')
@@ -248,6 +249,7 @@ class TimeReportController extends Controller
         } elseif ($inchargestatus == 1) {
             $timereports = TimeReport::join('masteremployee', 'mastertimereports.nip', '=', 'masteremployee.nip')
                 ->where('masteremployee.divisi', '=', $divisi)->orderBy('mastertimereports.date', 'desc')
+                ->where('is_deleted', false)
                 ->select(
                     'masteremployee.*',
                     'mastertimereports.id as id',
@@ -474,7 +476,8 @@ class TimeReportController extends Controller
                 }
             }
             $report = TimeReport::where('id', $id)->first();
-            $report->delete();
+            $report->is_deleted = true;
+            $report->save();
         }
 
         return redirect('/timesheets/detail');
