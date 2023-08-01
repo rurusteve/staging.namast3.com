@@ -700,6 +700,7 @@
                                     <div>{{$timereport->description}}</div>
                                     </td>
                                     <td>
+                                            @if($timereport->is_partially_approved == false)
                                             <a class='btn btn-xs btn-outline-danger' onclick="return confirm('Do you want to delete the record?')"
                                                type='submit' data-placement="top"
                                                data-target="#confirmDelete" data-title="Delete User"
@@ -712,6 +713,7 @@
                                                data-message='Are you sure you want to edit this user ?' href="{{ url('/timesheets/edit/'.$timereport->id) }}">
                                                     <i class="fas fa-trash-alt"></i> Edit
                                             </a>
+                                            @endif
                                         @if($inchargestatus)
                                           <a class='btn btn-xs btn-outline-success' onclick="return confirm('Do you want to approve the record?')"
                                             type='submit' data-placement="top"

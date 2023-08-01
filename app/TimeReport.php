@@ -42,8 +42,21 @@ class TimeReport extends Model
         'period' ,
         'description' ,
         'overtimemeal',
-        'overtimetransportation'
+        'overtimetransportation',
+        'is_business_trip',
+        'approved_by_incharge',
+        'approved_by_hr',
+        'approved_by_partner'
     ];
+
+    public function setApprovalAttribute($value)
+    {
+        if ($this->attributes['approved_by_incharge'] == true || $this->attributes['approved_by_hr'] == true || $this->attributes['approved_by_partner'] == true){
+            $this->attributes['is_partially_approved'] = false;
+        }
+
+        $this->attributes['is_partially_approved'] = true;
+    }
 
     public function approveByPeriod($period, $nip)
     {
