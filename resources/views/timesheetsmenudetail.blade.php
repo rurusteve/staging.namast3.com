@@ -700,12 +700,21 @@
                                     <div>{{$timereport->description}}</div>
                                     </td>
                                     <td>
+                                            @if($inchargestatus)
+                                            <a class='btn btn-xs btn-outline-danger {{ $timereport->approved_by_hr == true || $timereport->approved_by_partner == true ? 'disabled' : '' }}' onclick="return confirm('Do you want to delete the record?')"
+                                                type='submit' data-placement="top"
+                                                data-target="#confirmDelete" data-title="Delete Time Report"
+                                                data-message='Are you sure you want to delete this record ?' href="{{ url('/timesheets/delete/'.$timereport->id) }}">
+                                                     <i class="fas fa-trash-alt"></i> Delete
+                                             </a>
+                                            @else
                                             <a class='btn btn-xs btn-outline-danger {{ $timereport->approved_by_hr == true || $timereport->approved_by_incharge == true || $timereport->approved_by_partner == true ? 'disabled' : '' }}' onclick="return confirm('Do you want to delete the record?')"
                                                type='submit' data-placement="top"
                                                data-target="#confirmDelete" data-title="Delete Time Report"
                                                data-message='Are you sure you want to delete this record ?' href="{{ url('/timesheets/delete/'.$timereport->id) }}">
                                                     <i class="fas fa-trash-alt"></i> Delete
                                             </a>
+                                            @endif
                                 
                                         @if($inchargestatus)
                                           <a class='btn btn-xs btn-outline-success' onclick="return confirm('Do you want to approve the record?')"
