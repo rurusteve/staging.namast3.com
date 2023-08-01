@@ -171,7 +171,7 @@ Route::get('/timereportsummary/{id}/{period}', 'TimeReportController@summary')->
 Route::post('/inputtimereport/process', array('as' => 'form', 'uses' => 'TimeReportController@processinputtimereport'))->middleware('auth');
 Route::get('/inputtimereport/process', array('as' => 'form', 'uses' => 'TimeReportController@processinputtimereport'))->middleware('auth');
 Route::post('/inserttimereport', 'TimeReportController@inputtimereport')->middleware('auth');
-Route::get('/timesheets/detail/{date?}', 'TimeReportController@timesheetdetail')->middleware('auth');
+Route::get('/timesheets/detail/{date?}', 'TimeReportController@timesheetdetail')->middleware('auth')->name('timesheetsdetail');
 Route::get('/timesheets/main', 'TimeReportController@timesheetmain')->middleware('auth');
 Route::get('/timesheets/approval/incharge/{id}', 'TimeReportController@inchargeapproval')->middleware('auth');
 Route::get('/timesheets/approval/period/all/{period}', 'TimeReportController@approveAllByPeriod')->middleware('auth');

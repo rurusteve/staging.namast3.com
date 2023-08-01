@@ -657,7 +657,7 @@
                                     {{-- <td>
                                         Week {{$timereport->week}}
                                     </td> --}}
-                                    <td>{{date('d', strtotime($timereport->date))}} {{date('F', strtotime($timereport->date))}}</td>
+                                    <td><a href="{{ route('timesheetsdetail', ['date' => date('Y-m-d', strtotime($timereport->date))]) }}">{{ date('d F', strtotime($timereport->date)) }}</a></td>
 
                                     <td>{{$timereport->normalhours}}</td>
                                     @if($masteremployees->lembur == 'Y')
