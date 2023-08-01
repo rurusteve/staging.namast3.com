@@ -619,7 +619,7 @@
                             </i>
                         </p>
                         <table style="display: inline-table; width: 100%; overflow-x: auto;font-size: 14px;"
-                               class="table table-striped display"
+                               class="table responsive table-striped display"
                                id="example">
                             <thead>
                             <tr>
