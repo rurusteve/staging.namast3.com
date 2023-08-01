@@ -49,18 +49,11 @@ class TimeReport extends Model
         'approved_by_partner'
     ];
 
-    protected $attributes = [
-        'is_partially_approved' => $this->setApprovalAttribute(),
-    ];
-
-    public function setApprovalAttribute()
+    public function getIsPartiallyApprovedAttribute()
     {
-        if ($this->attributes['approved_by_incharge'] == true || $this->attributes['approved_by_hr'] == true || $this->attributes['approved_by_partner'] == true){
-            return false;
-        }
-        return true;
+        return !($this->attributes['approved_by_incharge'] || $this->attributes['approved_by_hr'] || $this->attributes['approved_by_partner']);
     }
-
+    
     public function approveByPeriod($period, $nip)
     {
         $data = MasterEmployee::where('nip', Auth::user()->nip)->first();
