@@ -57,8 +57,13 @@ class TimeReport extends Model
 
     private function calculateApprovalAttribute()
     {
-        return !($this->attributes['approved_by_incharge'] || $this->attributes['approved_by_hr'] || $this->attributes['approved_by_partner']);
+        $approved_by_incharge = isset($this->attributes['approved_by_incharge']) ? $this->attributes['approved_by_incharge'] : false;
+        $approved_by_hr = isset($this->attributes['approved_by_hr']) ? $this->attributes['approved_by_hr'] : false;
+        $approved_by_partner = isset($this->attributes['approved_by_partner']) ? $this->attributes['approved_by_partner'] : false;
+
+        return !($approved_by_incharge || $approved_by_hr || $approved_by_partner);
     }
+
 
     public function approveByPeriod($period, $nip)
     {
