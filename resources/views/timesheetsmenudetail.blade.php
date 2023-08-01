@@ -700,7 +700,7 @@
                                     <div>{{$timereport->description}}</div>
                                     </td>
                                     <td>
-                                            @if($timereport->is_partially_approved == false)
+                                            @if($timereport->approved_by_hr == true || $timereport->approved_by_incharge == true || $timereport->approved_by_partner == true)
                                             <a class='btn btn-xs btn-outline-danger' onclick="return confirm('Do you want to delete the record?')"
                                                type='submit' data-placement="top"
                                                data-target="#confirmDelete" data-title="Delete User"
