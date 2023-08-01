@@ -51,11 +51,10 @@ class TimeReport extends Model
 
     public function setApprovalAttribute($value)
     {
+        $this->attributes['is_partially_approved'] = true;
         if ($this->attributes['approved_by_incharge'] == true || $this->attributes['approved_by_hr'] == true || $this->attributes['approved_by_partner'] == true){
             $this->attributes['is_partially_approved'] = false;
         }
-
-        $this->attributes['is_partially_approved'] = true;
     }
 
     public function approveByPeriod($period, $nip)
