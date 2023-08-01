@@ -23,6 +23,7 @@ class TimeReport extends Model
     protected $hidden = ['created_at', 'updated_at'];
     public $table = 'mastertimereports';
     protected $guarded = [];
+    protected $appends = ['is_partially_approved'];
     protected $fillable = [
         'nip',
         'date',

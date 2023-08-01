@@ -265,6 +265,8 @@ class TimeReportController extends Controller
 
         $members = MasterEmployee::where('divisi', $divisi)->get();
 
+        dd($timereports);
+
         return view('timesheetsmenudetail', compact('timereports', 'inchargestatus', 'downloadtimereports', 'members'));
     }
 
