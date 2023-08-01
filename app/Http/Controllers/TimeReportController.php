@@ -213,7 +213,7 @@ class TimeReportController extends Controller
         }
     }
 
-    public function timesheetdetail()
+    public function timesheetdetail($date = null, $year = null)
     {
         $usernip = Auth::user()->nip;
         $masteremployees = DB::table('masteremployee')->where('nip', '=', $usernip)->first();
